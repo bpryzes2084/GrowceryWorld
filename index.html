@@ -80,16 +80,27 @@
           const variation = itemData.variations && itemData.variations[0] ? itemData.variations[0].item_variation_data : null;
           const priceAmount = variation && variation.price_money ? variation.price_money.amount : null;
           const price = priceAmount ? '$' + (priceAmount / 100).toFixed(2) : 'Price not available';
+          const itemId = item.id;
           
-          html += '<div style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fff">';
+          html += '<div style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fff;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s" class="search-result-item" data-item-id="' + itemId + '" onmouseover="this.style.transform=\'scale(1.02)\';this.style.boxShadow=\'0 4px 12px rgba(0,0,0,0.1)\'" onmouseout="this.style.transform=\'scale(1)\';this.style.boxShadow=\'none\'">';
           html += '<h3 style="margin:0 0 8px;font-size:16px">' + itemData.name + '</h3>';
-          html += '<p style="margin:0;color:#666;font-size:14px">' + price + '</p>';
+          html += '<p style="margin:0;color:#666;font-size:14px;font-weight:bold">' + price + '</p>';
           if (itemData.description) {
-            html += '<p style="margin:8px 0 0;font-size:14px">' + itemData.description + '</p>';
+            html += '<p style="margin:8px 0 0;font-size:14px;color:#555">' + itemData.description + '</p>';
           }
+          html += '<button style="margin-top:12px;padding:8px 16px;background:#111;color:#fff;border:0;border-radius:8px;cursor:pointer;font-size:14px">View Details</button>';
           html += '</div>';
         }
         resultsDiv.innerHTML = html;
+        
+        // Add click handlers to all result items
+        const resultItems = document.querySelectorAll('.search-result-item');
+        resultItems.forEach(function(item) {
+          item.addEventListener('click', function() {
+            const itemId = this.getAttribute('data-item-id');
+            handleItemClick(itemId);
+          });
+        });
       } else {
         resultsDiv.innerHTML = '<p style="text-align:center;color:#666">No results found. Try different keywords.</p>';
       }
@@ -100,6 +111,20 @@
       searchButton.disabled = false;
       searchButton.textContent = 'Search';
     }
+  }
+  
+  function handleItemClick(itemId) {
+    // What do you want to happen when someone clicks a result?
+    console.log('Item clicked:', itemId);
+    
+    // Option 1: Show more details
+    alert('Item ID: ' + itemId + '\nAdd your custom action here!');
+    
+    // Option 2: Add to cart (you'll need to implement this)
+    // addToCart(itemId);
+    
+    // Option 3: Navigate to product page
+    // window.location.href = '/product?id=' + itemId;
   }
   
   searchButton.addEventListener('click', performSearch);
