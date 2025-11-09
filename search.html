@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Search • Growceryworld</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://growceryworld.com/search.html">
+  <style>
+    :root { --max: 960px; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#111; background:#fff; }
+    header { max-width:var(--max); margin:0 auto; padding:16px 16px 0; display:flex; align-items:center; gap:12px; }
+    header a { text-decoration:none; color:#111; font-weight:700; }
+    .sub { color:#666; font-weight:500; }
+    main { max-width:var(--max); margin:0 auto; padding:16px; }
+    #gw-search { max-width:640px; margin:16px auto 12px; display:flex; gap:8px; }
+    #q { flex:1; padding:12px; border:1px solid #ccc; border-radius:12px }
+    #go { padding:12px 16px; border-radius:12px; border:0; background:#111; color:#fff; cursor:pointer }
+    #results { max-width:var(--max); margin:12px auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+    .card { border:1px solid #eee; border-radius:16px; padding:12px; }
+    .name { margin-top:8px; font-weight:600 }
+    .price { font-weight:700; margin-top:6px }
+    .empty, .error { color:#666; text-align:center; margin:24px 0 }
+    .error { color:#c00 }
+    img.thumb { width:100%; height:160px; object-fit:cover; border-radius:12px }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">Growceryworld</a>
+    <span class="sub">Search</span>
+  </header>
+
+  <main>
+    <form id="gw-search" onsubmit="return false;">
+      <input id="q" type="search" placeholder="Search products…" aria-label="Search">
+      <button id="go">Search</button>
+    </form>
+
+    <div id="results"></div>
+  </main>
+
+  <script>
+  const API = '/api/search';
+
+  // prefill from ?q= and auto-run
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(location.search);
+    const pre = params.get('q') || '';
+    const input = document.querySelector('#q');
+    input.value = pre;
+    document.querySelector('#go').addEventListener('click', run);
+    document.querySelector('#q').addEventListener('keydown', e => { if (e.key === 'Enter') run(); });
+    if (pre) run();
+  });
+
+  async function run(){
+    const q = document.querySelector('#q').value.trim();
+    const out = document.querySelector('#results');
+    if(!q){ out.innerHTML = '<p class="empty">Type a product name to search.</p>'; return; }
+    out.innerHTML = '<p class="empty">Searching…</p>';
+    try{
+      const res = await fetch(`${API}?q=${encodeURIComponent(q)}`, { credentials: 'omit' });
+      if (!res.ok) throw new Error('bad_status');
+      const data = await res.json();
+      const items = (data.results||[]);
+      out.innerHTML = items.length ? items.map(card).join('') : '<p class="empty">No matches.</p>';
+    }catch(e){
+      out.innerHTML = '<p class="error">Search unavailable.</p>';
+    }
+  }
+
+  function card(r){
+    const img = r.image ? `<img class="thumb" src="${r.image}" alt="${escapeHtml(r.name)}" loading="lazy" decoding="async">` : '';
+    const price = r.price ? `<div class="price">$${r.price} ${r.currency||''}</div>` : '';
+    return `<div class="card">
+      ${img}
+      <div class="name">${escapeHtml(r.name)}</div>
+      ${price}
+      <div class="desc" style="font-size:12px;color:#666;margin-top:4px">${escapeHtml((r.desc||'').slice(0,140))}</div>
+    </div>`;
+  }
+
+  function escapeHtml(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  </script>
+</body>
+</html>
+
