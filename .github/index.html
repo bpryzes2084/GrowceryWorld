@@ -1,25 +1,58 @@
-name: Deploy to GitHub Pages
-on:
-  push: { branches: [ "main" ] }
-  workflow_dispatch:
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: '.' }
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Growceryworld — Coming Soon</title>
+  <meta name="description" content="No monthly membership fee. UPS-centric shipping. Free item every order. Price-lock options." />
+  <meta name="robots" content="index,follow" />
+  <style>
+    :root { --bg:#0b0d10; --card:#141821; --ink:#e6e9ef; --muted:#9aa4b2; --accent:#e6e9ef; }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap { max-width:1000px; margin:0 auto; padding:48px 20px; }
+    header { text-align:center; }
+    h1 { font-size:42px; margin:8px 0 6px; letter-spacing:.3px; }
+    .tag { color:var(--muted); margin:0 0 12px; }
+    .cta { display:inline-block; margin-top:12px; padding:10px 16px; border-radius:12px; background:var(--accent); color:#0b0d10; text-decoration:none; font-weight:700; }
+    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin:32px 0 8px; }
+    .tile { background:var(--card); border:1px solid #1c2230; padding:18px; border-radius:16px; }
+    .soon { text-align:center; color:var(--muted); margin-top:6px; }
+    footer { text-align:center; opacity:.65; margin-top:40px; font-size:14px; }
+    a { color:inherit; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div style="font-size:48px">🍊</div>
+      <h1>Growceryworld</h1>
+      <p class="tag">No monthly membership fee. Smart, global grocery vibes.</p>
+      <a class="cta" href="mailto:hello@growceryworld.com">Contact</a>
+    </header>
+
+    <section class="tiles">
+      <article class="tile">
+        <h3>Free item every order</h3>
+        <p>Signature perk baked into checkout. Simple, consistent, generous.</p>
+      </article>
+      <article class="tile">
+        <h3>UPS-centric shipping</h3>
+        <p>Predictable costs and reliable delivery windows.</p>
+      </article>
+      <article class="tile">
+        <h3>Price-lock options</h3>
+        <p>Annual membership pricing that stays put. No gotchas.</p>
+      </article>
+    </section>
+
+    <p class="soon">Coming Soon — hosted on GitHub Pages, accelerated by Cloudflare.</p>
+
+    <footer>
+      <p>&copy; <span id="y"></span> Growceryworld. All rights reserved.</p>
+    </footer>
+  </main>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
+
