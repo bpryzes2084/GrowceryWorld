@@ -37,15 +37,76 @@
   <p style="margin:0;color:#666">Fast shipping. No membership. Your staples, your way.</p>
 </section>
 
-<!-- SEARCH goes here (above the fold) -->
-<section style="max-width:960px;margin:16px auto 24px;padding:0 16px">
-  <form id="gw-search" onsubmit="return false;" style="max-width:640px;margin:0 auto 12px;display:flex;gap:8px;">
-    <input id="q" type="search" placeholder="Search products…" aria-label="Search"
-           style="flex:1;padding:12px;border:1px solid #ccc;border-radius:12px" />
-    <button id="go" style="padding:12px 16px;border-radius:12px;border:0;background:#111;color:#fff;cursor:pointer">Search</button>
-  </form>
-  <div id="results" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;"></div>
-</section>
+<script>
+(function() {
+  const form = document.getElementById('gw-search');
+  const searchInput = document.getElementById('q');
+  const searchButton = document.getElementById('go');
+  const resultsDiv = document.getElementById('results');
+  
+  // Your Cloudflare Worker URL
+  const WORKER_URL = 'https://gw-search.benterpryzes2084.workers.dev/';
+  
+  async function performSearch() {
+    const query = searchInput.value.trim();
+    
+    if (!query) {
+      resultsDiv.innerHTML = '<p style="text-align:center;color:#666">Please enter a search term</p>';
+      return;
+    }
+    
+    // Show loading state
+    resultsDiv.innerHTML = '<p style="text-align:center;color:#666">Searching...</p>';
+    searchButton.disabled = true;
+    searchButton.textContent = 'Searching...';
+    
+    try {
+      const response = await fetch(`${WORKER_URL}?q=${encodeURIComponent(query)}`);
+      const data = await response.json();
+      
+      console.log('Search results:', data); // Debug
+      
+      // Display results
+      if (data.objects && data.objects.length > 0) {
+        resultsDiv.innerHTML = data.objects.map(item => {
+          const itemData = item.item_data;
+          const variation = itemData.variations?.[0]?.item_variation_data;
+          const price = variation?.price_money?.amount 
+            ? `$${(variation.price_money.amount / 100).toFixed(2)}` 
+            : 'Price not available';
+          
+          return `
+            <div style="border:1px solid #ddd;border-radius:12px;padding:16px;background:#fff">
+              <h3 style="margin:0 0 8px;font-size:16px">${itemData.name}</h3>
+              <p style="margin:0;color:#666;font-size:14px">${price}</p>
+              ${itemData.description ? `<p style="margin:8px 0 0;font-size:14px">${itemData.description}</p>` : ''}
+            </div>
+          `;
+        }).join('');
+      } else {
+        resultsDiv.innerHTML = '<p style="text-align:center;color:#666">No results found. Try different keywords.</p>';
+      }
+    } catch (error) {
+      console.error('Search error:', error);
+      resultsDiv.innerHTML = '<p style="text-align:center;color:#d00">Search failed. Please try again.</p>';
+    } finally {
+      searchButton.disabled = false;
+      searchButton.textContent = 'Search';
+    }
+  }
+  
+  // Button click
+  searchButton.addEventListener('click', performSearch);
+  
+  // Enter key in search box
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      performSearch();
+    }
+  });
+})();
+</script>
 
     <section class="tiles">
       <article class="tile">
