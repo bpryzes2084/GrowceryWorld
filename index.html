@@ -51,6 +51,39 @@
     .checkout-btn { width:100%; background:var(--accent); color:#0b0d10; border:0; padding:14px; border-radius:8px; font-weight:700; cursor:pointer; font-size:16px; }
     .checkout-btn:hover { opacity:0.9; }
     .empty-cart { text-align:center; padding:40px 20px; color:var(--muted); }
+    
+    /* Checkout Modal */
+    .checkout-modal { position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(0,0,0,0.7); z-index:300; display:none; align-items:center; justify-content:center; }
+    .checkout-modal.show { display:flex; }
+    .checkout-content { background:var(--card); width:90%; max-width:600px; max-height:90vh; overflow-y:auto; border-radius:12px; padding:32px; }
+    .checkout-content h2 { margin:0 0 24px; }
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; margin-bottom:6px; font-weight:600; }
+    .form-group input, .form-group select { width:100%; padding:10px; border:1px solid #1c2230; border-radius:8px; background:var(--bg); color:var(--ink); font-size:14px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .shipping-option { border:1px solid #1c2230; padding:16px; border-radius:8px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; }
+    .shipping-option:hover { border-color:var(--accent); }
+    .shipping-option.selected { border-color:var(--accent); background:#1a1f2e; }
+    .shipping-option-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+    .shipping-option-name { font-weight:600; }
+    .shipping-option-price { font-weight:700; color:var(--accent); }
+    .payment-methods { display:flex; gap:12px; margin-bottom:20px; }
+    .payment-method { flex:1; border:2px solid #1c2230; padding:16px; border-radius:8px; cursor:pointer; text-align:center; font-weight:600; transition:all 0.2s; }
+    .payment-method:hover { border-color:var(--accent); }
+    .payment-method.selected { border-color:var(--accent); background:#1a1f2e; }
+    .order-summary { background:var(--bg); padding:16px; border-radius:8px; margin-bottom:20px; }
+    .summary-row { display:flex; justify-content:space-between; margin-bottom:8px; }
+    .summary-total { font-size:20px; font-weight:700; border-top:1px solid #1c2230; padding-top:12px; margin-top:12px; }
+    .btn { padding:14px 24px; border:0; border-radius:8px; font-weight:700; cursor:pointer; font-size:16px; width:100%; }
+    .btn-primary { background:var(--accent); color:#0b0d10; }
+    .btn-primary:hover { opacity:0.9; }
+    .btn-secondary { background:#1c2230; color:var(--ink); margin-top:12px; }
+    .loading { text-align:center; padding:40px; }
+    .step { display:none; }
+    .step.active { display:block; }
+    .step-indicator { display:flex; justify-content:center; gap:12px; margin-bottom:24px; }
+    .step-dot { width:12px; height:12px; border-radius:50%; background:#1c2230; }
+    .step-dot.active { background:var(--accent); }
   </style>
 </head>
 <body>
@@ -82,7 +115,96 @@
         <span>Total:</span>
         <span id="cart-total">$0.00</span>
       </div>
-      <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+      <button class="checkout-btn" onclick="startCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="checkout-modal" id="checkout-modal">
+    <div class="checkout-content">
+      <h2>Checkout</h2>
+      <div class="step-indicator">
+        <div class="step-dot active" id="step-dot-1"></div>
+        <div class="step-dot" id="step-dot-2"></div>
+        <div class="step-dot" id="step-dot-3"></div>
+      </div>
+
+      <!-- Step 1: Shipping Address -->
+      <div class="step active" id="step-1">
+        <h3>Shipping Address</h3>
+        <form id="shipping-form">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="ship-name" required />
+          </div>
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="ship-address" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="ship-city" required />
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" id="ship-state" maxlength="2" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>ZIP Code</label>
+            <input type="text" id="ship-zip" required />
+          </div>
+          <button type="submit" class="btn btn-primary">Continue to Shipping Options</button>
+          <button type="button" class="btn btn-secondary" onclick="closeCheckout()">Cancel</button>
+        </form>
+      </div>
+
+      <!-- Step 2: Shipping Options -->
+      <div class="step" id="step-2">
+        <h3>Select Shipping Method</h3>
+        <div id="shipping-options-container">
+          <div class="loading">Calculating shipping rates...</div>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="continueToPayment()" style="display:none;" id="continue-payment-btn">Continue to Payment</button>
+        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+      </div>
+
+      <!-- Step 3: Payment -->
+      <div class="step" id="step-3">
+        <h3>Payment Method</h3>
+        
+        <div class="order-summary">
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping:</span>
+            <span id="summary-shipping">$0.00</span>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Total:</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+        </div>
+
+        <div class="payment-methods">
+          <div class="payment-method" onclick="selectPaymentMethod('square')">
+            <div>💳 Square</div>
+          </div>
+          <div class="payment-method" onclick="selectPaymentMethod('paypal')">
+            <div>🅿️ PayPal</div>
+          </div>
+        </div>
+
+        <div id="payment-form-container" style="display:none;">
+          <p style="text-align:center;color:var(--muted);margin:20px 0;">Payment processing will be implemented here</p>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="processOrder()" id="place-order-btn" style="display:none;">Place Order</button>
+        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+      </div>
     </div>
   </div>
 
@@ -135,8 +257,13 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Cart state (stored in memory)
+    const WORKER_URL = 'https://gw-search.benterpryzes2084.workers.dev';
+    
+    // Cart state
     let cart = [];
+    let selectedShippingOption = null;
+    let selectedPaymentMethod = null;
+    let shippingAddress = null;
 
     // Cart functions
     function toggleCart() {
@@ -155,7 +282,6 @@
       const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
       const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-      // Update cart count badge
       if (itemCount > 0) {
         cartCount.textContent = itemCount;
         cartCount.style.display = 'flex';
@@ -163,7 +289,6 @@
         cartCount.style.display = 'none';
       }
 
-      // Update cart items display
       if (cart.length === 0) {
         cartItems.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
         cartFooter.style.display = 'none';
@@ -210,18 +335,176 @@
       updateCartDisplay();
     }
 
-    function proceedToCheckout() {
-      alert('Checkout coming soon! This will calculate shipping via UPS and process payment via Square/PayPal.');
-      console.log('Cart contents:', cart);
+    // Checkout functions
+    function startCheckout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty');
+        return;
+      }
+      toggleCart();
+      document.getElementById('checkout-modal').classList.add('show');
+      goToStep(1);
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-modal').classList.remove('show');
+    }
+
+    function goToStep(stepNum) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+      
+      document.getElementById('step-' + stepNum).classList.add('active');
+      for (let i = 1; i <= stepNum; i++) {
+        document.getElementById('step-dot-' + i).classList.add('active');
+      }
+    }
+
+    document.getElementById('shipping-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      shippingAddress = {
+        name: document.getElementById('ship-name').value,
+        address: {
+          line1: document.getElementById('ship-address').value,
+          city: document.getElementById('ship-city').value,
+          state: document.getElementById('ship-state').value,
+          postalCode: document.getElementById('ship-zip').value
+        }
+      };
+
+      goToStep(2);
+      await calculateShipping();
+    });
+
+    async function calculateShipping() {
+      const container = document.getElementById('shipping-options-container');
+      container.innerHTML = '<div class="loading">Calculating shipping rates...</div>';
+
+      try {
+        const response = await fetch(WORKER_URL + '/api/checkout/calculate-shipping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cart: cart,
+            shippingAddress: shippingAddress
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.shippingOptions.length > 0) {
+          let html = '';
+          data.shippingOptions.forEach((option, index) => {
+            const serviceName = getServiceName(option.service);
+            html += `
+              <div class="shipping-option" onclick="selectShippingOption(${index}, ${option.cost})">
+                <div class="shipping-option-header">
+                  <span class="shipping-option-name">${serviceName}</span>
+                  <span class="shipping-option-price">$${option.cost.toFixed(2)}</span>
+                </div>
+                <div style="font-size:12px;color:var(--muted)">Service Code: ${option.service}</div>
+              </div>
+            `;
+          });
+          container.innerHTML = html;
+          window.shippingOptionsData = data.shippingOptions;
+        } else {
+          container.innerHTML = '<div class="empty-cart">No shipping options available</div>';
+        }
+      } catch (error) {
+        console.error('Shipping calculation error:', error);
+        container.innerHTML = '<div class="empty-cart">Error calculating shipping. Please try again.</div>';
+      }
+    }
+
+    function getServiceName(code) {
+      const services = {
+        '01': 'UPS Next Day Air',
+        '02': 'UPS 2nd Day Air',
+        '03': 'UPS Ground',
+        '12': 'UPS 3 Day Select'
+      };
+      return services[code] || 'UPS Service ' + code;
+    }
+
+    function selectShippingOption(index, cost) {
+      document.querySelectorAll('.shipping-option').forEach(opt => opt.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      selectedShippingOption = window.shippingOptionsData[index];
+      document.getElementById('continue-payment-btn').style.display = 'block';
+    }
+
+    function continueToPayment() {
+      if (!selectedShippingOption) {
+        alert('Please select a shipping method');
+        return;
+      }
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const shipping = selectedShippingOption.cost;
+      const total = subtotal + shipping;
+
+      document.getElementById('summary-subtotal').textContent = '$' + subtotal.toFixed(2);
+      document.getElementById('summary-shipping').textContent = '$' + shipping.toFixed(2);
+      document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+
+      goToStep(3);
+    }
+
+    function selectPaymentMethod(method) {
+      document.querySelectorAll('.payment-method').forEach(pm => pm.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      selectedPaymentMethod = method;
+      document.getElementById('payment-form-container').style.display = 'block';
+      document.getElementById('place-order-btn').style.display = 'block';
+    }
+
+    async function processOrder() {
+      if (!selectedPaymentMethod) {
+        alert('Please select a payment method');
+        return;
+      }
+
+      document.getElementById('place-order-btn').textContent = 'Processing...';
+      document.getElementById('place-order-btn').disabled = true;
+
+      try {
+        const response = await fetch(WORKER_URL + '/api/checkout/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cart: cart,
+            shippingAddress: shippingAddress,
+            paymentMethod: selectedPaymentMethod,
+            shippingOption: selectedShippingOption
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert('Order placed successfully!\nOrder ID: ' + data.orderId + '\nTracking: ' + (data.trackingNumber || 'Pending'));
+          cart = [];
+          updateCartDisplay();
+          closeCheckout();
+        } else {
+          alert('Order failed: ' + (data.error || 'Unknown error'));
+        }
+      } catch (error) {
+        console.error('Order processing error:', error);
+        alert('Order processing failed. Please try again.');
+      } finally {
+        document.getElementById('place-order-btn').textContent = 'Place Order';
+        document.getElementById('place-order-btn').disabled = false;
+      }
     }
 
     // Search functionality
     (function() {
-      const form = document.getElementById('gw-search');
       const searchInput = document.getElementById('q');
       const searchButton = document.getElementById('go');
       const resultsDiv = document.getElementById('results');
-      const WORKER_URL = 'https://gw-search.benterpryzes2084.workers.dev/search';
       
       async function performSearch() {
         const query = searchInput.value.trim();
@@ -236,10 +519,8 @@
         searchButton.textContent = 'Searching...';
         
         try {
-          const response = await fetch(WORKER_URL + '?q=' + encodeURIComponent(query));
+          const response = await fetch(WORKER_URL + '/search?q=' + encodeURIComponent(query));
           const data = await response.json();
-          
-          console.log('Search results:', data);
           
           if (data.objects && data.objects.length > 0) {
             let html = '';
@@ -304,7 +585,6 @@
       
       updateCartDisplay();
       
-      // Show brief notification
       const notification = document.createElement('div');
       notification.textContent = '✓ Added to cart';
       notification.style.cssText = 'position:fixed;top:80px;right:20px;background:#28a745;color:#fff;padding:12px 20px;border-radius:8px;z-index:300;animation:slideIn 0.3s;';
