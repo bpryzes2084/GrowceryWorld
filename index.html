@@ -262,21 +262,425 @@
       overflow: hidden;
       background: #ffffff;
     ">
-      <iframe
-        src="https://script.google.com/macros/s/AKfycbyprVGwN1hNTBdRJJjV7Ez2l6qJvwYYvw5BWfIw26Qccnva4Ho--qHqQCxpH_mdQvD1Sg/exec"
-        style="width: 100%; height: 900px; border: 0; display:block;"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growceryworld Memberships</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .memberships {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .membership-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            border: 3px solid #e9ecef;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .membership-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .membership-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+        
+        .membership-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .membership-card h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .membership-card .tagline {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .benefits {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .benefits li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+        
+        .benefits li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .discount-badge {
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        
+        .price {
+            font-size: 1.8em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .price-period {
+            font-size: 0.6em;
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .verification {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #856404;
+        }
+        
+        .comparison-section {
+            margin: 60px 0;
+        }
+        
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .faq-section {
+            margin: 60px 0;
+        }
+        
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .faq-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .faq-item h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .faq-item p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #e9ecef;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .memberships {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.85em;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Growceryworld Memberships</h1>
+            <p class="subtitle">Honoring Those Who Serve Our Communities</p>
+        </header>
 
-    <p style="text-align:center; margin-top: 10px; font-size:13px; color:#6b7280;">
-      If the membership portal does not load, 
-      <a href="https://script.google.com/macros/s/AKfycbyprVGwN1hNTBdRJJjV7Ez2l6qJvwYYvw5BWfIw26Qccnva4Ho--qHqQCxpH_mdQvD1Sg/exec">
-        click here to open it in a new tab.
-      </a>
-    </p>
-  </div>
+        <div class="memberships">
+            <!-- Standard Membership -->
+            <div class="membership-card featured">
+                <div class="icon">🛒</div>
+                <h2>Standard</h2>
+                <p class="tagline">For everyone who loves great savings</p>
+                <ul class="benefits">
+                    <li>Free item with every order</li>
+                    <li>Free bottle of water</li>
+                </ul>
+                <div class="price">$20.00 <span class="price-period">/year</span></div>
+                <a href="YOUR_STANDARD_LINK" class="btn">Join Standard Membership</a>
+            </div>
+
+            <!-- College Student Membership -->
+            <div class="membership-card">
+                <div class="icon">🎓</div>
+                <h2>College Student</h2>
+                <p class="tagline">For currently enrolled college and university students</p>
+                <ul class="benefits">
+                    <li>Free item with every order</li>
+                    <li>Free bottle of water</li>
+                </ul>
+                <div class="price">$16.00 <span class="price-period">/year</span></div>
+                <a href="YOUR_STUDENT_LINK" class="btn">Join Student Membership</a>
+                <div class="verification">⚠️ Verification required: Student ID or .edu email</div>
+            </div>
+
+            <!-- Military Membership -->
+            <div class="membership-card">
+                <div class="icon">🎖️</div>
+                <h2>Military</h2>
+                <p class="tagline">For active duty, veterans, reserves, and military families</p>
+                <ul class="benefits">
+                    <li>Free item with every order</li>
+                    <li>Free bottle of water</li>
+                </ul>
+                <div class="price">$18.00 <span class="price-period">/year</span></div>
+                <a href="YOUR_MILITARY_LINK" class="btn">Join Military Membership</a>
+                <div class="verification">⚠️ Verification required: Military ID, VA card, or DD-214</div>
+            </div>
+
+            <!-- Air Crew Membership -->
+            <div class="membership-card">
+                <div class="icon">✈️</div>
+                <h2>Air Crew</h2>
+                <p class="tagline">For pilots, flight attendants, and aviation professionals</p>
+                <ul class="benefits">
+                    <li>Free item with every order</li>
+                    <li>Free bottle of water</li>
+                </ul>
+                <div class="price">$14.00 <span class="price-period">/year</span></div>
+                <a href="YOUR_AIR_CREW_LINK" class="btn">Join Air Crew Membership</a>
+                <div class="verification">⚠️ Verification required: Valid airline ID or crew badge</div>
+            </div>
+        </div>
+
+        <!-- Comparison Section -->
+        <div class="comparison-section">
+            <h2>Membership Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Standard</th>
+                        <th>Student</th>
+                        <th>Military</th>
+                        <th>Air Crew</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Benefits</strong></td>
+                        <td>Free item + water</td>
+                        <td>Free item + water</td>
+                        <td>Free item + water</td>
+                        <td>Free item + water</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Special Features</strong></td>
+                        <td>Weekly deals</td>
+                        <td>Student perks</td>
+                        <td>APO/FPO delivery</td>
+                        <td>Flexible scheduling</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Annual Price</strong></td>
+                        <td>$20.00</td>
+                        <td>$16.00</td>
+                        <td>$18.00</td>
+                        <td>$14.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Verification</strong></td>
+                        <td>None required</td>
+                        <td>Required</td>
+                        <td>Required</td>
+                        <td>Required</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>How long does verification take?</h3>
+                <p>Most verifications are completed within 24 hours. You'll receive an email confirmation once approved.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Can I cancel anytime?</h3>
+                <p>Yes! Annual memberships are non-refundable but remain active until the end of your membership year.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Can my family use my membership?</h3>
+                <p>Yes! All household members at the same delivery address can use your membership benefits.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What if I have multiple qualifying statuses?</h3>
+                <p>You can only hold one membership at a time. Choose the one with the best price for your needs.</p>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Questions?</strong> Contact our membership team at members@growceryworld.com or call 1-800-GROCERY</p>
+            <p style="margin-top: 15px; font-size: 0.9em;">*Memberships require verification of status except Standard membership. Terms and conditions apply. Delivery areas and times vary by location. Points and benefits active only during active membership period.*</p>
+        </footer>
+    </div>
+</body>
+</html>
 
 
     
