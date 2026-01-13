@@ -9,16 +9,14 @@
 
   <style>
     :root {
-      /* LIGHT THEME */
       --bg: #ffffff;
       --card: #ffffff;
       --ink: #0f172a;
       --muted: #475569;
       --border: #e5e7eb;
-
-      --accent2: #16a34a;      /* green */
-      --accent2Hover: #15803d;  /* darker green */
-      --btnDark: #111827;       /* near-black */
+      --accent2: #16a34a;
+      --accent2Hover: #15803d;
+      --btnDark: #111827;
       --btnDarkHover: #0b1220;
     }
 
@@ -40,7 +38,6 @@
       padding: 48px 20px 80px;
     }
 
-    /* Top Navigation */
     .top-nav {
       background: #ffffff;
       border-bottom: 1px solid var(--border);
@@ -96,29 +93,14 @@
       border-color: #cbd5e1;
     }
 
-    /* Hero */
     header.hero { text-align: center; margin-bottom: 24px; }
     header.hero h1 { font-size: 38px; margin: 8px 0 6px; letter-spacing: 0.2px; }
     header.hero .tag { color: var(--muted); margin: 0 0 8px; }
     .hero-sub { margin: 0; color: var(--muted); font-size: 14px; }
 
-    .cta-email {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 16px;
-      border-radius: 12px;
-      background: #0f172a;
-      color: #ffffff;
-      font-weight: 800;
-      font-size: 14px;
-    }
-    .cta-email:hover { background: #111827; }
-
     .section { margin: 32px 0; }
 
-    /* Search section */
     .search-section { max-width: 760px; margin: 0 auto; text-align: left; }
-
     .search-form { display: flex; gap: 8px; margin-bottom: 10px; }
 
     .search-form input[type="search"] {
@@ -131,6 +113,7 @@
       font-size: 14px;
       outline: none;
     }
+
     .search-form input[type="search"]:focus {
       border-color: #94a3b8;
       box-shadow: 0 0 0 3px rgba(148,163,184,0.25);
@@ -183,7 +166,6 @@
       box-shadow: 0 10px 24px rgba(2,6,23,0.08);
     }
 
-    /* NEW: Product Image Styles */
     .product-image {
       width: 100%;
       height: 200px;
@@ -217,7 +199,6 @@
     }
     .snipcart-add-item:hover { background: var(--accent2Hover); }
 
-    /* Free item section */
     .free-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
     .free-select {
@@ -231,6 +212,7 @@
       font-size: 14px;
       outline: none;
     }
+
     .free-select:focus {
       border-color: #94a3b8;
       box-shadow: 0 0 0 3px rgba(148,163,184,0.25);
@@ -252,7 +234,6 @@
 
     .free-note { margin-top: 10px; color: var(--muted); font-size: 13px; min-height: 18px; }
 
-    /* Tiles */
     .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
 
     .tile {
@@ -265,7 +246,6 @@
     }
     .tile h3 { margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: 900; }
 
-    /* Membership section */
     .membership-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -307,9 +287,6 @@
     }
     .membership-btn:hover { background: #4f46e5; }
 
-    .verification-note { margin-top: 6px; font-size: 11px; color: #b45309; }
-
-    /* Footer */
     footer { text-align: center; margin-top: 40px; font-size: 13px; color: var(--muted); }
     .coming-soon { text-align: center; margin-top: 16px; font-size: 13px; color: var(--muted); }
 
@@ -323,7 +300,6 @@
 </head>
 
 <body>
-  <!-- Top navigation -->
   <nav class="top-nav">
     <div class="top-nav-inner">
       <div class="nav-logo">
@@ -341,8 +317,6 @@
   </nav>
 
   <main class="wrap">
-
-    <!-- Search section -->
     <section id="search" class="section search-section">
       <h2 style="font-size:20px;margin:0 0 8px;">Search products</h2>
       <p class="search-status" id="search-status"></p>
@@ -350,31 +324,23 @@
         <input id="q" type="search" placeholder="Search by product name (e.g., cereal, Lysol, Dawn)..." aria-label="Search products" />
         <button type="submit" id="go">Search</button>
       </form>
-
       <div id="results" class="results-grid"></div>
     </section>
 
-    <!-- Free item section -->
     <section id="free-item" class="section search-section">
       <h2 style="font-size:20px;margin:0 0 8px;">Free item with every order</h2>
       <p style="color:var(--muted);font-size:13px;margin:0 0 12px;">
         Pick <strong>one</strong> free item per order. Add it before checkout.
       </p>
-
       <div class="free-row">
         <select id="freeItemSelect" class="free-select">
           <option value="">-- Choose your free item --</option>
         </select>
-
-        <button id="addFreeItemBtn" type="button" class="free-btn">
-          Add Free Item
-        </button>
+        <button id="addFreeItemBtn" type="button" class="free-btn">Add Free Item</button>
       </div>
-
       <p id="freeItemStatus" class="free-note"></p>
     </section>
 
-    <!-- Benefits tiles -->
     <section class="section">
       <div class="tiles">
         <article class="tile">
@@ -392,16 +358,13 @@
       </div>
     </section>
 
-    <!-- Membership section -->
     <section id="membership" class="section">
       <h2 style="font-size:20px;margin:0 0 4px;text-align:center;">Growceryworld Membership</h2>
       <p style="text-align:center;color:var(--muted);font-size:13px;margin:0 0 16px;">
         Honoring everyday shoppers with locked-in annual pricing.
       </p>
-
       <div class="membership-grid">
-        <!-- Standard -->
-        <div class="membership-card featured wide-card centered-card">
+        <div class="membership-card featured">
           <div class="membership-icon">🛒</div>
           <h4>Standard</h4>
           <p class="membership-tagline">For everyone who loves savings</p>
@@ -410,9 +373,7 @@
             <li>Free item with every order</li>
             <li>Free bottle of water</li>
           </ul>
-          <a href="https://square.link/u/CP70vULk" class="membership-btn">
-            Join Standard Membership
-          </a>
+          <a href="https://square.link/u/CP70vULk" class="membership-btn">Join Standard Membership</a>
         </div>
       </div>
     </section>
@@ -424,7 +385,6 @@
     </footer>
   </main>
 
-  <!-- Snipcart Integration -->
   <script>
     window.SnipcartSettings = {
       publicApiKey: "OGFjNmI1OGEtMjk5Mi00NjE4LTg4MjYtNzhhYjg1ZTMyYjM2NjM5MDEyNDc2NjY1NjgxMTIw",
@@ -434,15 +394,10 @@
     (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
   </script>
 
-  <!-- Search + Free Item logic -->
   <script>
-    // ========= CONFIG =========
     const WORKER_URL = 'https://gw-search.benterpryzes2084.workers.dev';
-
-    // ========= YEAR =========
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ========= SEARCH =========
     const searchInput = document.getElementById('q');
     const searchBtn = document.getElementById('go');
     const resultsDiv = document.getElementById('results');
@@ -504,7 +459,6 @@
           const card = document.createElement('div');
           card.className = 'product-card';
 
-          // NEW: ADD PRODUCT IMAGE
           if (obj.image_url) {
             const imgEl = document.createElement('img');
             imgEl.src = obj.image_url;
@@ -536,14 +490,12 @@
           const btn = document.createElement('button');
           btn.className = 'snipcart-add-item';
           btn.textContent = 'Add to Cart';
-
           btn.setAttribute('data-item-id', obj.id);
           btn.setAttribute('data-item-name', itemData.name || 'Unnamed item');
           btn.setAttribute('data-item-price', price || 0);
           btn.setAttribute('data-item-url', '/');
           btn.setAttribute('data-item-description', itemData.description || '');
           
-          // NEW: Add image to cart item
           if (obj.image_url) {
             btn.setAttribute('data-item-image', obj.image_url);
           }
@@ -570,7 +522,6 @@
 
     document.getElementById('gw-search').addEventListener('submit', performSearch);
 
-    // ========= FREE ITEM DROPDOWN (25 items) =========
     const FREE_ITEMS = [
       { id: "free-001", name: "Van Camp's Pork and Beans", price: 0.00, description: "Canned Beans, 15oz" },
       { id: "free-002", name: "Lay's Classic Potato Chips", price: 0.00, description: "Single-serve bag, 1oz" },
@@ -610,9 +561,7 @@
     function populateFreeDropdown() {
       const sel = document.getElementById("freeItemSelect");
       if (!sel) return;
-
       sel.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
-
       FREE_ITEMS.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
@@ -622,4 +571,75 @@
     }
 
     function ensureSnipcartLoaded() {
-      try { window.LoadSni
+      try { window.LoadSnipcart && window.LoadSnipcart(); } catch {}
+    }
+
+    function getCartItemsSafe() {
+      try { return window.Snipcart?.store?.getState()?.cart?.items || []; }
+      catch { return []; }
+    }
+
+    function findExistingFreebies() {
+      const items = getCartItemsSafe();
+      return items.filter(i => (i.customFields || []).some(f => f.name === "gw_tag" && f.value === FREE_TAG));
+    }
+
+    async function removeAllFreebies() {
+      const freebies = findExistingFreebies();
+      for (const f of freebies) {
+        try { await window.Snipcart.api.cart.items.remove(f.uniqueId); }
+        catch (e) { console.warn("Failed removing free item:", e); }
+      }
+    }
+
+    async function addSelectedFreeItem() {
+      const btn = document.getElementById("addFreeItemBtn");
+      const sel = document.getElementById("freeItemSelect");
+
+      if (!sel || !sel.value) { setFreeStatus("Pick a free item first."); return; }
+
+      const chosen = FREE_ITEMS.find(x => x.id === sel.value);
+      if (!chosen) { setFreeStatus("That free item wasn't found."); return; }
+
+      btn.disabled = true;
+      btn.textContent = "Adding…";
+      setFreeStatus("Loading cart…");
+
+      ensureSnipcartLoaded();
+
+      const start = Date.now();
+      while (!(window.S
+               if (!window.Snipcart || !window.Snipcart.api) {
+    setFreeStatus("Cart is still loading. Click the Cart button once, then try again.");
+    btn.disabled = false;
+    btn.textContent = "Add Free Item";
+    return;
+  }
+
+  setFreeStatus("Updating your free item…");
+  await removeAllFreebies();
+
+  try {
+    await window.Snipcart.api.cart.items.add({
+      id: chosen.id,
+      name: chosen.name,
+      price: 0.00,
+      url: SITE_URL,
+      description: chosen.description || "",
+      quantity: 1,
+      customFields: [{ name: "gw_tag", value: FREE_TAG }]
+    });
+    setFreeStatus(`Added: ${chosen.name} (free).`);
+  } catch (e) {
+    console.error(e);
+    setFreeStatus("Could not add the free item. Check console for details.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Add Free Item";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  populateFreeDropdown();
+  document.getElementById("addFreeItemBtn")?.addEventListener("click", addSelectedFreeItem);
+});
