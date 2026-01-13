@@ -8,299 +8,148 @@
   <meta name="robots" content="index,follow" />
 
   <style>
-    :root {
-      --bg: #ffffff;
-      --card: #ffffff;
-      --ink: #0f172a;
-      --muted: #475569;
-      --border: #e5e7eb;
-      --accent2: #16a34a;
-      --accent2Hover: #15803d;
-      --btnDark: #111827;
-      --btnDarkHover: #0b1220;
+    :root{
+      --bg:#ffffff;
+      --ink:#0f172a;
+      --muted:#475569;
+      --border:#e5e7eb;
+      --accent2:#16a34a;
+      --accent2Hover:#15803d;
+      --btnDark:#111827;
+      --btnDarkHover:#0b1220;
     }
-
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;padding:0;background:var(--bg);color:var(--ink);
+      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
-
-    a { color: inherit; text-decoration: none; }
-
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 48px 20px 80px;
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1100px;margin:0 auto;padding:48px 20px 80px}
+    .top-nav{
+      background:#fff;border-bottom:1px solid var(--border);
+      padding:12px 20px;position:sticky;top:0;z-index:100;
     }
-
-    .top-nav {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    .top-nav-inner{
+      max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;
+      align-items:center;gap:16px;
     }
-
-    .top-nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
+    .nav-logo{font-weight:800;font-size:18px;display:flex;align-items:center;gap:6px}
+    .nav-links{display:flex;gap:16px;font-size:14px;color:var(--muted)}
+    .nav-links a:hover{color:var(--ink)}
+    .snipcart-checkout{
+      background:#fff;border:1px solid var(--border);
+      padding:8px 16px;border-radius:10px;color:var(--ink);
+      cursor:pointer;display:flex;align-items:center;gap:8px;
+      transition:background .2s,border-color .2s;font-size:14px;font-family:inherit;
     }
-
-    .nav-logo {
-      font-weight: 800;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .snipcart-checkout:hover{background:#f8fafc;border-color:#cbd5e1}
+    .section{margin:32px 0}
+    .search-section{max-width:760px;margin:0 auto;text-align:left}
+    .search-form{display:flex;gap:8px;margin-bottom:10px}
+    .search-form input[type="search"]{
+      flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);
+      background:#fff;color:var(--ink);font-size:14px;outline:none;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      font-size: 14px;
-      color: var(--muted);
+    .search-form input[type="search"]:focus{
+      border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);
     }
-
-    .nav-links a:hover { color: var(--ink); }
-
-    .snipcart-checkout {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      padding: 8px 16px;
-      border-radius: 10px;
-      color: var(--ink);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.2s, border-color 0.2s;
-      font-size: 14px;
-      font-family: inherit;
+    .search-form input::placeholder{color:#94a3b8}
+    .search-form button{
+      padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);
+      color:#fff;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap;
     }
-
-    .snipcart-checkout:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
+    .search-form button:hover{background:var(--btnDarkHover)}
+    .search-form button:disabled{opacity:.5;cursor:default}
+    .search-status{font-size:13px;color:var(--muted);min-height:20px;margin-bottom:8px}
+    .results-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;
     }
-
-    .section { margin: 32px 0; }
-
-    .search-section { max-width: 760px; margin: 0 auto; text-align: left; }
-    .search-form { display: flex; gap: 8px; margin-bottom: 10px; }
-
-    .search-form input[type="search"] {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--ink);
-      font-size: 14px;
-      outline: none;
+    .product-card{
+      border:1px solid var(--border);border-radius:14px;padding:14px;background:#fff;
+      color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s;
+      overflow:hidden;position:relative;
     }
-
-    .search-form input[type="search"]:focus {
-      border-color: #94a3b8;
-      box-shadow: 0 0 0 3px rgba(148,163,184,0.25);
+    .product-card:hover{
+      transform:translateY(-2px);border-color:#cbd5e1;box-shadow:0 10px 24px rgba(2,6,23,.08);
     }
-
-    .search-form input::placeholder { color: #94a3b8; }
-
-    .search-form button {
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 0;
-      background: var(--btnDark);
-      color: #fff;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 14px;
-      white-space: nowrap;
+    .product-image{
+      width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;
+      margin:-14px -14px 12px -14px;background:#f1f5f9;
     }
-
-    .search-form button:hover { background: var(--btnDarkHover); }
-    .search-form button:disabled { opacity: 0.5; cursor: default; }
-
-    .search-status {
-      font-size: 13px;
-      color: var(--muted);
-      min-height: 20px;
-      margin-bottom: 8px;
+    .product-name{margin:0 0 6px;font-size:15px;font-weight:800}
+    .product-price{margin:0;font-size:14px;font-weight:800;color:var(--accent2)}
+    .product-desc{margin:8px 0 0;font-size:13px;color:var(--muted);min-height:34px}
+    .product-actions{margin-top:10px}
+    .snipcart-add-item{
+      width:100%;padding:10px 16px;border-radius:10px;border:0;background:var(--accent2);
+      color:#fff;cursor:pointer;font-size:14px;font-weight:800;transition:background .15s;
+      font-family:inherit;
     }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
+    .snipcart-add-item:hover{background:var(--accent2Hover)}
+    .free-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .free-select{
+      flex:1;min-width:220px;padding:12px;border-radius:12px;border:1px solid var(--border);
+      background:#fff;color:var(--ink);font-size:14px;outline:none;
     }
-
-    .product-card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      background: #ffffff;
-      color: var(--ink);
-      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
-      overflow: hidden;
-      position: relative;
+    .free-select:focus{
+      border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);
     }
-
-    .product-card:hover {
-      transform: translateY(-2px);
-      border-color: #cbd5e1;
-      box-shadow: 0 10px 24px rgba(2,6,23,0.08);
+    .free-btn{
+      padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);
+      color:#fff;cursor:pointer;font-weight:800;font-size:14px;white-space:nowrap;
     }
-
-    .product-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px 12px 0 0;
-      margin: -14px -14px 12px -14px;
-      background: #f1f5f9;
+    .free-btn:hover{background:var(--btnDarkHover)}
+    .free-btn:disabled{opacity:.55;cursor:default}
+    .free-note{margin-top:10px;color:var(--muted);font-size:13px;min-height:18px}
+    .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .tile{
+      background:#fff;border:1px solid var(--border);padding:18px;border-radius:16px;
+      font-size:14px;box-shadow:0 10px 24px rgba(2,6,23,.05);
     }
-
-    .product-name { margin: 0 0 6px; font-size: 15px; font-weight: 800; }
-    .product-price { margin: 0; font-size: 14px; font-weight: 800; color: var(--accent2); }
-    .product-desc { margin: 8px 0 0; font-size: 13px; color: var(--muted); min-height: 34px; }
-    .product-actions { margin-top: 10px; }
-
-    .snipcart-add-item {
-      width: 100%;
-      padding: 10px 16px;
-      border-radius: 10px;
-      border: 0;
-      background: var(--accent2);
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 800;
-      transition: background 0.15s;
-      font-family: inherit;
+    .tile h3{margin-top:0;margin-bottom:8px;font-size:16px;font-weight:900}
+    .membership-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:18px;margin-top:16px;
     }
-    .snipcart-add-item:hover { background: var(--accent2Hover); }
-
-    .free-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-
-    .free-select {
-      flex: 1;
-      min-width: 220px;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--ink);
-      font-size: 14px;
-      outline: none;
+    .membership-card{
+      background:#fff;border-radius:16px;padding:18px;border:1px solid var(--border);
+      box-shadow:0 10px 24px rgba(2,6,23,.05);
     }
-
-    .free-select:focus {
-      border-color: #94a3b8;
-      box-shadow: 0 0 0 3px rgba(148,163,184,0.25);
+    .membership-card.featured{border-color:#6366f1}
+    .membership-icon{font-size:24px;margin-bottom:6px}
+    .membership-card h4{margin:0 0 4px;font-size:16px;font-weight:900}
+    .membership-tagline{font-size:13px;color:var(--muted);margin-bottom:10px}
+    .membership-price{font-size:18px;font-weight:900;margin-bottom:8px}
+    .membership-price span{font-size:11px;color:var(--muted);font-weight:500;margin-left:4px}
+    .membership-list{list-style:none;padding:0;margin:0 0 10px;font-size:13px}
+    .membership-list li{margin-bottom:4px}
+    .membership-list li::before{content:"✓ ";color:var(--accent2);font-weight:900}
+    .membership-btn{
+      display:inline-block;width:100%;text-align:center;padding:10px 14px;border-radius:10px;
+      background:#6366f1;color:#fff;font-size:13px;font-weight:900;margin-top:4px;
     }
-
-    .free-btn {
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 0;
-      background: var(--btnDark);
-      color: #fff;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-    .free-btn:hover { background: var(--btnDarkHover); }
-    .free-btn:disabled { opacity: 0.55; cursor: default; }
-
-    .free-note { margin-top: 10px; color: var(--muted); font-size: 13px; min-height: 18px; }
-
-    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-
-    .tile {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      padding: 18px;
-      border-radius: 16px;
-      font-size: 14px;
-      box-shadow: 0 10px 24px rgba(2,6,23,0.05);
-    }
-    .tile h3 { margin-top: 0; margin-bottom: 8px; font-size: 16px; font-weight: 900; }
-
-    .membership-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 18px;
-      margin-top: 16px;
-    }
-
-    .membership-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 18px;
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 24px rgba(2,6,23,0.05);
-    }
-
-    .membership-card.featured { border-color: #6366f1; }
-
-    .membership-icon { font-size: 24px; margin-bottom: 6px; }
-    .membership-card h4 { margin: 0 0 4px; font-size: 16px; font-weight: 900; }
-    .membership-tagline { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-    .membership-price { font-size: 18px; font-weight: 900; margin-bottom: 8px; }
-    .membership-price span { font-size: 11px; color: var(--muted); font-weight: 500; margin-left: 4px; }
-
-    .membership-list { list-style: none; padding: 0; margin: 0 0 10px; font-size: 13px; }
-    .membership-list li { margin-bottom: 4px; }
-    .membership-list li::before { content: "✓ "; color: var(--accent2); font-weight: 900; }
-
-    .membership-btn {
-      display: inline-block;
-      width: 100%;
-      text-align: center;
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: #6366f1;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 900;
-      margin-top: 4px;
-    }
-    .membership-btn:hover { background: #4f46e5; }
-
-    footer { text-align: center; margin-top: 40px; font-size: 13px; color: var(--muted); }
-    .coming-soon { text-align: center; margin-top: 16px; font-size: 13px; color: var(--muted); }
-
-    @media (max-width: 640px) {
-      .wrap { padding-inline: 14px; }
-      .top-nav-inner { flex-wrap: wrap; justify-content: space-between; }
-      .nav-links { display: none; }
+    .membership-btn:hover{background:#4f46e5}
+    footer{text-align:center;margin-top:40px;font-size:13px;color:var(--muted)}
+    .coming-soon{text-align:center;margin-top:16px;font-size:13px;color:var(--muted)}
+    @media(max-width:640px){
+      .wrap{padding-inline:14px}
+      .top-nav-inner{flex-wrap:wrap;justify-content:space-between}
+      .nav-links{display:none}
     }
 
     /* ===== Snipcart FREE item display (robust) ===== */
     .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__price,
     .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__unit-price,
     .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__total-price,
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__total {
-      display: none !important;
+    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__total{
+      display:none !important;
     }
-
     .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__title::after,
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__name::after {
-      content: " — FREE";
-      color: #16a34a;
-      font-weight: 900;
-      margin-left: 4px;
+    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__name::after{
+      content:" — FREE";
+      color:#16a34a;
+      font-weight:900;
+      margin-left:4px;
     }
   </style>
 </head>
@@ -308,9 +157,7 @@
 <body>
   <nav class="top-nav">
     <div class="top-nav-inner">
-      <div class="nav-logo">
-        <span>Growceryworld</span>
-      </div>
+      <div class="nav-logo"><span>Growceryworld</span></div>
       <div class="nav-links">
         <a href="#search">Search</a>
         <a href="#free-item">Free item</a>
@@ -401,9 +248,10 @@
 
   <!-- Snipcart lazy loader -->
   <script>
-    (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('script[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey)}})();
+    (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('script[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){t.dataset.apiKey=window.SnipcartSettings.publicApiKey}})();
   </script>
 
+  <!-- App logic: Search + Free Item dropdown -->
   <script>
     // ===== CONFIG =====
     const WORKER_URL = "https://gw-search.benterpryzes2084.workers.dev";
@@ -413,7 +261,7 @@
     const SITE_URL_FOR_ITEMS = "/";
     const FREE_ITEMS_URL = "/#free-item";
 
-    // Keep internal price > 0 (Snipcart behaves better), but hide it in cart via CSS
+    // If your free items are truly $0.00, keep this at 0.00.
     const FREEBIE_DEFAULT_PRICE = 0.00;
 
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -424,16 +272,16 @@
     const resultsDiv = document.getElementById("results");
     const searchStatusEl = document.getElementById("search-status");
 
-    function formatMoney(amount) { return "$" + amount.toFixed(2); }
+    function formatMoney(amount){ return "$" + Number(amount).toFixed(2); }
 
-    async function performSearch(evt) {
+    async function performSearch(evt){
       if (evt) evt.preventDefault();
 
       const query = searchInput.value.trim();
       resultsDiv.innerHTML = "";
       searchStatusEl.textContent = "";
 
-      if (!query) {
+      if (!query){
         searchStatusEl.textContent = "Type something to search your Square inventory.";
         return;
       }
@@ -442,9 +290,9 @@
       searchBtn.textContent = "Searching…";
       searchStatusEl.textContent = "Searching…";
 
-      try {
+      try{
         const res = await fetch(WORKER_URL + "/search?q=" + encodeURIComponent(query));
-        if (!res.ok) {
+        if (!res.ok){
           const text = await res.text();
           console.error("Search failed:", res.status, text);
           searchStatusEl.textContent = "Search error. Check Worker endpoint or CORS.";
@@ -452,16 +300,14 @@
         }
 
         const data = await res.json();
-
-        if (!Array.isArray(data.objects)) {
+        if (!Array.isArray(data.objects)){
           console.error("Unexpected response shape:", data);
           searchStatusEl.textContent = "Search error. Worker must return { objects: [...] }.";
           return;
         }
 
         const objects = data.objects.filter(o => o.type === "ITEM");
-
-        if (!objects.length) {
+        if (!objects.length){
           searchStatusEl.textContent = "No items found. Try a different keyword.";
           return;
         }
@@ -480,13 +326,13 @@
           const card = document.createElement("div");
           card.className = "product-card";
 
-          if (obj.image_url) {
+          if (obj.image_url){
             const imgEl = document.createElement("img");
             imgEl.src = obj.image_url;
             imgEl.alt = itemData.name || "Product";
             imgEl.className = "product-image";
             imgEl.loading = "lazy";
-            imgEl.onerror = function() { this.style.display = "none"; };
+            imgEl.onerror = function(){ this.style.display = "none"; };
             card.appendChild(imgEl);
           }
 
@@ -508,6 +354,7 @@
           const btn = document.createElement("button");
           btn.className = "snipcart-add-item";
           btn.textContent = "Add to Cart";
+
           btn.setAttribute("data-item-id", obj.id);
           btn.setAttribute("data-item-name", itemData.name || "Unnamed item");
           btn.setAttribute("data-item-price", price != null ? price : 0);
@@ -515,25 +362,28 @@
           btn.setAttribute("data-item-description", itemData.description || "");
 
           if (obj.image_url) btn.setAttribute("data-item-image", obj.image_url);
-        }
-                        btn.setAttribute('data-item-shippable', 'true');
-btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
+
+          // ✅ REQUIRED FOR UPS RATES
+          btn.setAttribute("data-item-shippable", "true");
+          btn.setAttribute("data-item-weight", "454"); // grams (~1 lb)
 
           actions.appendChild(btn);
+
           card.appendChild(nameEl);
           card.appendChild(priceEl);
           card.appendChild(descEl);
           card.appendChild(actions);
+
           frag.appendChild(card);
         });
 
         resultsDiv.innerHTML = "";
         resultsDiv.appendChild(frag);
 
-      } catch (err) {
+      } catch(err){
         console.error("Search error:", err);
         searchStatusEl.textContent = "Search failed. Open DevTools Console for details.";
-      } finally {
+      } finally{
         searchBtn.disabled = false;
         searchBtn.textContent = "Search";
       }
@@ -543,39 +393,39 @@ btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
 
     // ===== FREE ITEMS (25) =====
     const FREE_ITEMS = [
-      { id: "free-001", name: "Van Camp's Pork and Beans", price: 0.00, description: "Canned Beans, 15oz" },
-      { id: "free-002", name: "Lay's Classic Potato Chips", price: 0.00, description: "Single-serve bag, 1oz" },
-      { id: "free-003", name: "Lay's Barbecue Potato Chips", price: 0.00, description: "Single-serve bag, 1oz" },
-      { id: "free-004", name: "Bumble Bee Chunk Light Tuna In Water", price: 0.00, description: "5oz" },
-      { id: "free-005", name: "Chicken of the Sea Chunk Light Tuna", price: 0.00, description: "5oz" },
-      { id: "free-006", name: "Starkist Chunk Light Tuna", price: 0.00, description: "5oz" },
-      { id: "free-007", name: "Rosarita Traditional Refried Beans", price: 0.00, description: "16oz" },
-      { id: "free-008", name: "Gerber Stage 2 Chicken and Gravy", price: 0.00, description: "2.5oz" },
-      { id: "free-009", name: "Gerber Stage 2 Turkey and Gravy", price: 0.00, description: "2.5oz" },
-      { id: "free-010", name: "Cesar Filets in Gravy Adult Dog Food Filet Mignon Flavor", price: 0.00, description: "3.5oz" },
-      { id: "free-011", name: "Purina Friskies Wet Cat Food Pate Liver and Chicken Dinner", price: 0.00, description: "5.5oz" },
-      { id: "free-012", name: "Ruffles Original Potato Chips", price: 0.00, description: "1oz" },
-      { id: "free-013", name: "Nature Valley Oats 'n Honey Crunchy Granola Bars", price: 0.00, description: "1.49oz" },
-      { id: "free-014", name: "Nature Valley Chewy Trail Mix Fruit & Nut Granola Bars", price: 0.00, description: "1.2oz" },
-      { id: "free-015", name: "Kar's Sweet 'n Salty Trail Mix", price: 0.00, description: "2oz" },
-      { id: "free-016", name: "Capri Sun Variety Pack", price: 0.00, description: "6 fl oz pouch (flavor varies when shipped)" },
-      { id: "free-017", name: "Famous Amos Chocolate Chip Cookies", price: 0.00, description: "2oz" },
-      { id: "free-018", name: "Lance ToastChee Peanut Butter Crackers", price: 0.00, description: "1.52oz" },
-      { id: "free-019", name: "Lance Toasty Peanut Butter Sandwich Crackers", price: 0.00, description: "1.29oz" },
-      { id: "free-020", name: "Cheez-It Original Baked Snack Crackers", price: 0.00, description: "1.5oz" },
-      { id: "free-021", name: "Cheez-It White Cheddar Snack Packs", price: 0.00, description: "1.5oz" },
-      { id: "free-022", name: "Nabisco Classic Mix Cookie & Cracker", price: 0.00, description: "Flavor varies when shipped" },
-      { id: "free-023", name: "Doritos Nacho Cheese Tortilla Chips", price: 0.00, description: "1oz" },
-      { id: "free-024", name: "Fritos The Original Corn Chips", price: 0.00, description: "1oz" },
-      { id: "free-025", name: "Cheetos Crunchy Cheese Flavored Snacks", price: 0.00, description: "1oz" }
+      { id:"free-001", name:"Van Camp's Pork and Beans", price:0.00, description:"Canned Beans, 15oz" },
+      { id:"free-002", name:"Lay's Classic Potato Chips", price:0.00, description:"Single-serve bag, 1oz" },
+      { id:"free-003", name:"Lay's Barbecue Potato Chips", price:0.00, description:"Single-serve bag, 1oz" },
+      { id:"free-004", name:"Bumble Bee Chunk Light Tuna In Water", price:0.00, description:"5oz" },
+      { id:"free-005", name:"Chicken of the Sea Chunk Light Tuna", price:0.00, description:"5oz" },
+      { id:"free-006", name:"Starkist Chunk Light Tuna", price:0.00, description:"5oz" },
+      { id:"free-007", name:"Rosarita Traditional Refried Beans", price:0.00, description:"16oz" },
+      { id:"free-008", name:"Gerber Stage 2 Chicken and Gravy", price:0.00, description:"2.5oz" },
+      { id:"free-009", name:"Gerber Stage 2 Turkey and Gravy", price:0.00, description:"2.5oz" },
+      { id:"free-010", name:"Cesar Filets in Gravy Adult Dog Food Filet Mignon Flavor", price:0.00, description:"3.5oz" },
+      { id:"free-011", name:"Purina Friskies Wet Cat Food Pate Liver and Chicken Dinner", price:0.00, description:"5.5oz" },
+      { id:"free-012", name:"Ruffles Original Potato Chips", price:0.00, description:"1oz" },
+      { id:"free-013", name:"Nature Valley Oats 'n Honey Crunchy Granola Bars", price:0.00, description:"1.49oz" },
+      { id:"free-014", name:"Nature Valley Chewy Trail Mix Fruit & Nut Granola Bars", price:0.00, description:"1.2oz" },
+      { id:"free-015", name:"Kar's Sweet 'n Salty Trail Mix", price:0.00, description:"2oz" },
+      { id:"free-016", name:"Capri Sun Variety Pack", price:0.00, description:"6 fl oz pouch (flavor varies when shipped)" },
+      { id:"free-017", name:"Famous Amos Chocolate Chip Cookies", price:0.00, description:"2oz" },
+      { id:"free-018", name:"Lance ToastChee Peanut Butter Crackers", price:0.00, description:"1.52oz" },
+      { id:"free-019", name:"Lance Toasty Peanut Butter Sandwich Crackers", price:0.00, description:"1.29oz" },
+      { id:"free-020", name:"Cheez-It Original Baked Snack Crackers", price:0.00, description:"1.5oz" },
+      { id:"free-021", name:"Cheez-It White Cheddar Snack Packs", price:0.00, description:"1.5oz" },
+      { id:"free-022", name:"Nabisco Classic Mix Cookie & Cracker", price:0.00, description:"Flavor varies when shipped" },
+      { id:"free-023", name:"Doritos Nacho Cheese Tortilla Chips", price:0.00, description:"1oz" },
+      { id:"free-024", name:"Fritos The Original Corn Chips", price:0.00, description:"1oz" },
+      { id:"free-025", name:"Cheetos Crunchy Cheese Flavored Snacks", price:0.00, description:"1oz" }
     ];
 
-    function setFreeStatus(msg) {
+    function setFreeStatus(msg){
       const el = document.getElementById("freeItemStatus");
       if (el) el.textContent = msg || "";
     }
 
-    function populateFreeDropdown() {
+    function populateFreeDropdown(){
       const sel = document.getElementById("freeItemSelect");
       if (!sel) return;
 
@@ -591,56 +441,46 @@ btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
       setFreeStatus(`Loaded ${FREE_ITEMS.length} free item(s).`);
     }
 
-    function ensureSnipcartLoaded() {
-      try { window.LoadSnipcart && window.LoadSnipcart(); } catch {}
+    function ensureSnipcartLoaded(){
+      try{ window.LoadSnipcart && window.LoadSnipcart(); } catch {}
     }
 
-    async function waitForSnipcartApi(timeoutMs = 4500) {
+    async function waitForSnipcartApi(timeoutMs=4500){
       const start = Date.now();
-      while (Date.now() - start < timeoutMs) {
+      while (Date.now() - start < timeoutMs){
         if (window.Snipcart?.api?.cart?.items?.add) return true;
         await new Promise(r => setTimeout(r, 120));
       }
       return false;
     }
 
-    function getCartItemsSafe() {
-      try {
-        return window.Snipcart?.store?.getState()?.cart?.items?.items || [];
-      } catch {
-        return [];
-      }
+    function getCartItemsSafe(){
+      try{ return window.Snipcart?.store?.getState()?.cart?.items?.items || []; }
+      catch{ return []; }
     }
 
-    function isFreebie(item) {
+    function isFreebie(item){
       const categories = item?.categories || [];
       return Array.isArray(categories) && categories.includes(FREEBIE_CATEGORY);
     }
 
-    async function removeAllFreebies() {
+    async function removeAllFreebies(){
       const items = getCartItemsSafe();
       const freebies = items.filter(isFreebie);
-
-      for (const f of freebies) {
-        try { await window.Snipcart.api.cart.items.remove(f.uniqueId); }
-        catch (e) { console.warn("Failed removing free item:", e); }
+      for (const f of freebies){
+        try{ await window.Snipcart.api.cart.items.remove(f.uniqueId); }
+        catch(e){ console.warn("Failed removing free item:", e); }
       }
     }
 
-    async function addSelectedFreeItem() {
+    async function addSelectedFreeItem(){
       const btn = document.getElementById("addFreeItemBtn");
       const sel = document.getElementById("freeItemSelect");
 
-      if (!sel || !sel.value) {
-        setFreeStatus("Pick a free item first.");
-        return;
-      }
+      if (!sel || !sel.value){ setFreeStatus("Pick a free item first."); return; }
 
       const chosen = FREE_ITEMS.find(x => x.id === sel.value);
-      if (!chosen) {
-        setFreeStatus("That free item wasn't found.");
-        return;
-      }
+      if (!chosen){ setFreeStatus("That free item wasn't found."); return; }
 
       btn.disabled = true;
       btn.textContent = "Adding…";
@@ -649,18 +489,18 @@ btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
       ensureSnipcartLoaded();
 
       const ready = await waitForSnipcartApi();
-      if (!ready) {
+      if (!ready){
         setFreeStatus("Snipcart is still loading. Click the Cart button once, then try again.");
         btn.disabled = false;
         btn.textContent = "Add Free Item";
         return;
       }
 
-      try {
+      try{
         setFreeStatus("Updating your free item…");
         await removeAllFreebies();
 
-        const price = (typeof chosen.price === "number" && chosen.price > 0) ? chosen.price : FREEBIE_DEFAULT_PRICE;
+        const price = (typeof chosen.price === "number") ? chosen.price : FREEBIE_DEFAULT_PRICE;
 
         await window.Snipcart.api.cart.items.add({
           id: chosen.id,
@@ -668,14 +508,16 @@ btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
           price: price,
           url: FREE_ITEMS_URL,
           description: chosen.description || "Free item",
-          categories: [FREEBIE_CATEGORY]
+          categories: [FREEBIE_CATEGORY],
+          shippable: true,
+          weight: 100 // grams
         });
 
         setFreeStatus("Free item added to cart ✅");
-      } catch (e) {
+      } catch(e){
         console.error("Add free item failed:", e);
         setFreeStatus("Could not add free item. Open DevTools Console for details.");
-      } finally {
+      } finally{
         btn.disabled = false;
         btn.textContent = "Add Free Item";
       }
@@ -686,60 +528,5 @@ btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
       document.getElementById("addFreeItemBtn")?.addEventListener("click", addSelectedFreeItem);
     });
   </script>
-  <script>
-  // Force freebie items to display as FREE inside Snipcart cart modal
-  (function () {
-    const FREEBIE_CATEGORY = "freebie";
-
-    function isFreebieLine(lineEl) {
-      const cat = (lineEl.getAttribute("data-item-categories") || "").toLowerCase();
-      return cat.includes(FREEBIE_CATEGORY);
-    }
-
-    function patchCartDom() {
-      // Snipcart cart markup changes across versions, so we patch broadly
-      const lines = document.querySelectorAll(".snipcart-item-line");
-      if (!lines.length) return;
-
-      lines.forEach(line => {
-        if (!isFreebieLine(line)) return;
-
-        // Hide price elements (various possible classnames)
-        const priceNodes = line.querySelectorAll(
-          ".snipcart-item-line__price, .snipcart-item-line__unit-price, .snipcart-item-line__total, .snipcart-item-line__total-price"
-        );
-        priceNodes.forEach(n => (n.style.display = "none"));
-
-        // Add/append FREE label to title/name
-        const title =
-          line.querySelector(".snipcart-item-line__title") ||
-          line.querySelector(".snipcart-item-line__name");
-
-        if (title && !title.dataset.freeTagged) {
-          title.dataset.freeTagged = "1";
-          title.textContent = title.textContent.replace(/\s—\sFREE\s*$/i, "");
-          title.textContent += " — FREE";
-        }
-      });
-    }
-
-    // Run on interval briefly (covers lazy-load + route changes)
-    let tries = 0;
-    const timer = setInterval(() => {
-      patchCartDom();
-      tries++;
-      if (tries > 40) clearInterval(timer); // ~8 seconds
-    }, 200);
-
-    // Also patch whenever the cart opens / changes (best effort)
-    document.addEventListener("click", (e) => {
-      if (e.target && e.target.closest(".snipcart-checkout")) {
-        setTimeout(patchCartDom, 600);
-        setTimeout(patchCartDom, 1200);
-      }
-    });
-  })();
-</script>
-
 </body>
 </html>
