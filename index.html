@@ -288,14 +288,31 @@
     }
 
     /* ===== Snipcart FREE item display (Option 1) ===== */
-    .snipcart-item-line[data-item-categories~="freebie"] .snipcart-item-line__price {
-      display: none !important;
-    }
-    .snipcart-item-line[data-item-categories~="freebie"] .snipcart-item-line__title::after {
-      content: " — FREE";
-      color: #16a34a;
-      font-weight: 900;
-      margin-left: 4px;
+    /* ===== Snipcart FREE item display (robust) ===== */
+
+/* Hide all price displays for freebie items */
+.snipcart-item-line[data-item-categories*="freebie"]
+  .snipcart-item-line__price,
+.snipcart-item-line[data-item-categories*="freebie"]
+  .snipcart-item-line__unit-price,
+.snipcart-item-line[data-item-categories*="freebie"]
+  .snipcart-item-line__total-price,
+.snipcart-item-line[data-item-categories*="freebie"]
+  .snipcart-item-line__total {
+  display: none !important;
+}
+
+/* Append FREE label to item name */
+.snipcart-item-line[data-item-categories*="freebie"]
+  .snipcart-item-line__title::after,
+.snipcart-item-line[data-item-categories*="freebie"]
+  .snipcart-item-line__name::after {
+  content: " — FREE";
+  color: #16a34a;
+  font-weight: 900;
+  margin-left: 4px;
+}
+
     }
   </style>
 </head>
