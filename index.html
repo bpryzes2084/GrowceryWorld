@@ -683,5 +683,60 @@
       document.getElementById("addFreeItemBtn")?.addEventListener("click", addSelectedFreeItem);
     });
   </script>
+  <script>
+  // Force freebie items to display as FREE inside Snipcart cart modal
+  (function () {
+    const FREEBIE_CATEGORY = "freebie";
+
+    function isFreebieLine(lineEl) {
+      const cat = (lineEl.getAttribute("data-item-categories") || "").toLowerCase();
+      return cat.includes(FREEBIE_CATEGORY);
+    }
+
+    function patchCartDom() {
+      // Snipcart cart markup changes across versions, so we patch broadly
+      const lines = document.querySelectorAll(".snipcart-item-line");
+      if (!lines.length) return;
+
+      lines.forEach(line => {
+        if (!isFreebieLine(line)) return;
+
+        // Hide price elements (various possible classnames)
+        const priceNodes = line.querySelectorAll(
+          ".snipcart-item-line__price, .snipcart-item-line__unit-price, .snipcart-item-line__total, .snipcart-item-line__total-price"
+        );
+        priceNodes.forEach(n => (n.style.display = "none"));
+
+        // Add/append FREE label to title/name
+        const title =
+          line.querySelector(".snipcart-item-line__title") ||
+          line.querySelector(".snipcart-item-line__name");
+
+        if (title && !title.dataset.freeTagged) {
+          title.dataset.freeTagged = "1";
+          title.textContent = title.textContent.replace(/\s—\sFREE\s*$/i, "");
+          title.textContent += " — FREE";
+        }
+      });
+    }
+
+    // Run on interval briefly (covers lazy-load + route changes)
+    let tries = 0;
+    const timer = setInterval(() => {
+      patchCartDom();
+      tries++;
+      if (tries > 40) clearInterval(timer); // ~8 seconds
+    }, 200);
+
+    // Also patch whenever the cart opens / changes (best effort)
+    document.addEventListener("click", (e) => {
+      if (e.target && e.target.closest(".snipcart-checkout")) {
+        setTimeout(patchCartDom, 600);
+        setTimeout(patchCartDom, 1200);
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
