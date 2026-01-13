@@ -515,6 +515,9 @@
           btn.setAttribute("data-item-description", itemData.description || "");
 
           if (obj.image_url) btn.setAttribute("data-item-image", obj.image_url);
+        }
+                        btn.setAttribute('data-item-shippable', 'true');
+btn.setAttribute('data-item-weight', '454'); // grams (~1 lb)
 
           actions.appendChild(btn);
           card.appendChild(nameEl);
