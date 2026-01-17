@@ -8,149 +8,60 @@
   <meta name="robots" content="index,follow" />
 
   <style>
+    /* (kept your original styles) */
     :root{
-      --bg:#ffffff;
-      --ink:#0f172a;
-      --muted:#475569;
-      --border:#e5e7eb;
-      --accent2:#16a34a;
-      --accent2Hover:#15803d;
-      --btnDark:#111827;
-      --btnDarkHover:#0b1220;
+      --bg:#ffffff; --ink:#0f172a; --muted:#475569; --border:#e5e7eb;
+      --accent2:#16a34a; --accent2Hover:#15803d; --btnDark:#111827; --btnDarkHover:#0b1220;
     }
     *{box-sizing:border-box}
-    html,body{
-      margin:0;padding:0;background:var(--bg);color:var(--ink);
-      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
     a{color:inherit;text-decoration:none}
     .wrap{max-width:1100px;margin:0 auto;padding:48px 20px 80px}
-    .top-nav{
-      background:#fff;border-bottom:1px solid var(--border);
-      padding:12px 20px;position:sticky;top:0;z-index:100;
-    }
-    .top-nav-inner{
-      max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;
-      align-items:center;gap:16px;
-    }
+    .top-nav{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;position:sticky;top:0;z-index:100;}
+    .top-nav-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
     .nav-logo{font-weight:800;font-size:18px;display:flex;align-items:center;gap:6px}
     .nav-links{display:flex;gap:16px;font-size:14px;color:var(--muted)}
     .nav-links a:hover{color:var(--ink)}
-    .snipcart-checkout{
-      background:#fff;border:1px solid var(--border);
-      padding:8px 16px;border-radius:10px;color:var(--ink);
-      cursor:pointer;display:flex;align-items:center;gap:8px;
-      transition:background .2s,border-color .2s;font-size:14px;font-family:inherit;
-    }
-    .snipcart-checkout:hover{background:#f8fafc;border-color:#cbd5e1}
+    /* Cart button */
+    .cart-btn{background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:10px;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:8px}
     .section{margin:32px 0}
     .search-section{max-width:760px;margin:0 auto;text-align:left}
     .search-form{display:flex;gap:8px;margin-bottom:10px}
-    .search-form input[type="search"]{
-      flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);
-      background:#fff;color:var(--ink);font-size:14px;outline:none;
-    }
-    .search-form input[type="search"]:focus{
-      border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);
-    }
+    .search-form input[type="search"]{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:14px;outline:none;}
+    .search-form input[type="search"]:focus{border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);}
     .search-form input::placeholder{color:#94a3b8}
-    .search-form button{
-      padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);
-      color:#fff;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap;
-    }
-    .search-form button:hover{background:var(--btnDarkHover)}
-    .search-form button:disabled{opacity:.5;cursor:default}
-    .search-status{font-size:13px;color:var(--muted);min-height:20px;margin-bottom:8px}
-    .results-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;
-    }
-    .product-card{
-      border:1px solid var(--border);border-radius:14px;padding:14px;background:#fff;
-      color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s;
-      overflow:hidden;position:relative;
-    }
-    .product-card:hover{
-      transform:translateY(-2px);border-color:#cbd5e1;box-shadow:0 10px 24px rgba(2,6,23,.08);
-    }
-    .product-image{
-      width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;
-      margin:-14px -14px 12px -14px;background:#f1f5f9;
-    }
+    .search-form button{padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);color:#fff;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap;}
+    .results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+    .product-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:#fff;color:var(--ink);transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden;position:relative;}
+    .product-card:hover{transform:translateY(-2px);border-color:#cbd5e1;box-shadow:0 10px 24px rgba(2,6,23,.08);}
+    .product-image{width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;margin:-14px -14px 12px -14px;background:#f1f5f9;}
     .product-name{margin:0 0 6px;font-size:15px;font-weight:800}
     .product-price{margin:0;font-size:14px;font-weight:800;color:var(--accent2)}
     .product-desc{margin:8px 0 0;font-size:13px;color:var(--muted);min-height:34px}
     .product-actions{margin-top:10px}
-    .snipcart-add-item{
-      width:100%;padding:10px 16px;border-radius:10px;border:0;background:var(--accent2);
-      color:#fff;cursor:pointer;font-size:14px;font-weight:800;transition:background .15s;
-      font-family:inherit;
-    }
-    .snipcart-add-item:hover{background:var(--accent2Hover)}
+    .btn-add{width:100%;padding:10px 16px;border-radius:10px;border:0;background:var(--accent2);color:#fff;cursor:pointer;font-size:14px;font-weight:800;transition:background .15s;font-family:inherit}
+    .btn-add:hover{background:var(--accent2Hover)}
     .free-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .free-select{
-      flex:1;min-width:220px;padding:12px;border-radius:12px;border:1px solid var(--border);
-      background:#fff;color:var(--ink);font-size:14px;outline:none;
-    }
-    .free-select:focus{
-      border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);
-    }
-    .free-btn{
-      padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);
-      color:#fff;cursor:pointer;font-weight:800;font-size:14px;white-space:nowrap;
-    }
+    .free-select{flex:1;min-width:220px;padding:12px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:14px;outline:none;}
+    .free-btn{padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);color:#fff;cursor:pointer;font-weight:800;font-size:14px;white-space:nowrap;}
     .free-btn:hover{background:var(--btnDarkHover)}
-    .free-btn:disabled{opacity:.55;cursor:default}
     .free-note{margin-top:10px;color:var(--muted);font-size:13px;min-height:18px}
-    .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-    .tile{
-      background:#fff;border:1px solid var(--border);padding:18px;border-radius:16px;
-      font-size:14px;box-shadow:0 10px 24px rgba(2,6,23,.05);
-    }
-    .tile h3{margin-top:0;margin-bottom:8px;font-size:16px;font-weight:900}
-    .membership-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:18px;margin-top:16px;
-    }
-    .membership-card{
-      background:#fff;border-radius:16px;padding:18px;border:1px solid var(--border);
-      box-shadow:0 10px 24px rgba(2,6,23,.05);
-    }
-    .membership-card.featured{border-color:#6366f1}
-    .membership-icon{font-size:24px;margin-bottom:6px}
-    .membership-card h4{margin:0 0 4px;font-size:16px;font-weight:900}
-    .membership-tagline{font-size:13px;color:var(--muted);margin-bottom:10px}
-    .membership-price{font-size:18px;font-weight:900;margin-bottom:8px}
-    .membership-price span{font-size:11px;color:var(--muted);font-weight:500;margin-left:4px}
-    .membership-list{list-style:none;padding:0;margin:0 0 10px;font-size:13px}
-    .membership-list li{margin-bottom:4px}
-    .membership-list li::before{content:"✓ ";color:var(--accent2);font-weight:900}
-    .membership-btn{
-      display:inline-block;width:100%;text-align:center;padding:10px 14px;border-radius:10px;
-      background:#6366f1;color:#fff;font-size:13px;font-weight:900;margin-top:4px;
-    }
-    .membership-btn:hover{background:#4f46e5}
     footer{text-align:center;margin-top:40px;font-size:13px;color:var(--muted)}
     .coming-soon{text-align:center;margin-top:16px;font-size:13px;color:var(--muted)}
-    @media(max-width:640px){
-      .wrap{padding-inline:14px}
-      .top-nav-inner{flex-wrap:wrap;justify-content:space-between}
-      .nav-links{display:none}
-    }
-
-    /* ===== Snipcart FREE item display (robust) ===== */
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__price,
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__unit-price,
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__total-price,
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__total{
-      display:none !important;
-    }
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__title::after,
-    .snipcart-item-line[data-item-categories*="freebie"] .snipcart-item-line__name::after{
-      content:" — FREE";
-      color:#16a34a;
-      font-weight:900;
-      margin-left:4px;
-    }
+    @media(max-width:640px){.wrap{padding-inline:14px}.top-nav-inner{flex-wrap:wrap;justify-content:space-between}.nav-links{display:none}}
+    /* cart panel */
+    .cart-panel{position:fixed;right:18px;top:72px;width:360px;max-width:92vw;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;box-shadow:0 12px 40px rgba(2,6,23,.08);display:flex;flex-direction:column;gap:10px;z-index:300;transform:translateY(0);transition:opacity .18s,transform .18s}
+    .cart-hidden{display:none}
+    .cart-item{display:flex;gap:10px;align-items:center;border-bottom:1px dashed #eee;padding-bottom:8px}
+    .cart-item img{width:60px;height:50px;object-fit:cover;border-radius:6px}
+    .cart-item .meta{flex:1}
+    .cart-item .meta .name{font-weight:700;font-size:14px}
+    .cart-item .meta .qty{font-size:13px;color:var(--muted)}
+    .cart-actions{display:flex;gap:8px;align-items:center}
+    .small-muted{font-size:13px;color:var(--muted)}
+    .checkout-btn{background:#111;color:#fff;padding:10px 12px;border-radius:10px;border:0;font-weight:800;cursor:pointer}
+    .checkout-btn:disabled{opacity:.6;cursor:not-allowed}
   </style>
 </head>
 
@@ -163,9 +74,10 @@
         <a href="#free-item">Free item</a>
         <a href="#membership">Memberships</a>
       </div>
-      <button class="snipcart-checkout">
-        🛒 Cart (<span class="snipcart-items-count">0</span>)
-      </button>
+
+      <div style="display:flex;align-items:center;gap:8px">
+        <button id="openCartBtn" class="cart-btn">🛒 Cart (<span id="cartCount">0</span>)</button>
+      </div>
     </div>
   </nav>
 
@@ -182,9 +94,7 @@
 
     <section id="free-item" class="section search-section">
       <h2 style="font-size:20px;margin:0 0 8px;">Free item with every order</h2>
-      <p style="color:var(--muted);font-size:13px;margin:0 0 12px;">
-        Pick <strong>one</strong> free item per order. Add it before checkout.
-      </p>
+      <p style="color:var(--muted);font-size:13px;margin:0 0 12px;">Pick <strong>one</strong> free item per order. Add it before checkout.</p>
       <div class="free-row">
         <select id="freeItemSelect" class="free-select">
           <option value="">-- Choose your free item --</option>
@@ -195,203 +105,40 @@
     </section>
 
     <section class="section">
-      <div class="tiles">
-        <article class="tile">
-          <h3>Free item with every order</h3>
-          <p>Pick one free item per checkout. Simple, consistent, and generous.</p>
-        </article>
-        <article class="tile">
-          <h3>Orders shipped via UPS</h3>
-          <p>Predictable costs and reliable delivery options as we roll out.</p>
-        </article>
-        <article class="tile">
-          <h3>Price-lock membership</h3>
-          <p>Annual membership pricing that stays put. No surprise increases.</p>
-        </article>
-      </div>
+      <div class="coming-soon">Powered by Cloudflare Pages</div>
     </section>
-
-    <section id="membership" class="section">
-      <h2 style="font-size:20px;margin:0 0 4px;text-align:center;">Growceryworld Membership</h2>
-      <p style="text-align:center;color:var(--muted);font-size:13px;margin:0 0 16px;">
-        Honoring everyday shoppers with locked-in annual pricing.
-      </p>
-      <div class="membership-grid">
-        <div class="membership-card featured">
-          <div class="membership-icon">🛒</div>
-          <h4>Standard</h4>
-          <p class="membership-tagline">For everyone who loves savings</p>
-          <p class="membership-price">$20.00 <span>/year</span></p>
-          <ul class="membership-list">
-            <li>Free item with every order</li>
-            <li>Free bottle of water</li>
-          </ul>
-          <a href="https://square.link/u/CP70vULk" class="membership-btn">Join Standard Membership</a>
-        </div>
-      </div>
-    </section>
-
-    <p class="coming-soon">Powered by Cloudflare Pages</p>
 
     <footer>
       <p>&copy; <span id="year"></span> Growceryworld. All rights reserved.</p>
     </footer>
   </main>
 
-  <!-- Snipcart lazy-load settings -->
-  <script>
-    window.SnipcartSettings = {
-      publicApiKey: "OGFjNmI1OGEtMjk5Mi00NjE4LTg4MjYtNzhhYjg1ZTMyYjM2NjM5MDEyNDc2NjY1NjgxMTIw",
-      loadStrategy: "on-user-interaction"
-    };
-  </script>
+  <!-- Cart panel (hidden by default) -->
+  <div id="cartPanel" class="cart-panel cart-hidden" aria-hidden="true">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong>Your cart</strong>
+      <button id="closeCart" style="background:transparent;border:0;cursor:pointer">✕</button>
+    </div>
+    <div id="cartItemsContainer" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="small-muted">Subtotal</div>
+      <div id="cartSubtotal" class="small-muted">$0.00</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button id="checkoutBtn" class="checkout-btn" style="flex:1">Checkout</button>
+      <button id="clearCartBtn" class="checkout-btn" style="background:#eee;color:#111">Clear</button>
+    </div>
+    <div id="checkoutStatus" class="small-muted" style="min-height:18px"></div>
+  </div>
 
-  <!-- Snipcart lazy loader -->
-  <script>
-    (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('script[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){t.dataset.apiKey=window.SnipcartSettings.publicApiKey}})();
-  </script>
-
-  <!-- App logic: Search + Free Item dropdown -->
   <script>
     // ===== CONFIG =====
-    const WORKER_URL = "https://gw-search.benterpryzes2084.workers.dev";
+    // Replace these with your actual Worker endpoints:
+    const WORKER_URL = "https://gw-search.benterpryzes2084.workers.dev"; // used for /search
+    const WORKER_CHECKOUT = "https://gw-search.benterpryzes2084.workers.dev/create-checkout"; // POST cart to this endpoint; returns {checkoutUrl}
 
-    const FREE_TAG = "GW_FREE_ITEM";
-    const FREEBIE_CATEGORY = "freebie";
-    const SITE_URL_FOR_ITEMS = "/";
-    const FREE_ITEMS_URL = "/#free-item";
-
-    // If your free items are truly $0.00, keep this at 0.00.
-    const FREEBIE_DEFAULT_PRICE = 0.00;
-
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // ===== SEARCH =====
-    const searchInput = document.getElementById("q");
-    const searchBtn = document.getElementById("go");
-    const resultsDiv = document.getElementById("results");
-    const searchStatusEl = document.getElementById("search-status");
-
-    function formatMoney(amount){ return "$" + Number(amount).toFixed(2); }
-
-    async function performSearch(evt){
-      if (evt) evt.preventDefault();
-
-      const query = searchInput.value.trim();
-      resultsDiv.innerHTML = "";
-      searchStatusEl.textContent = "";
-
-      if (!query){
-        searchStatusEl.textContent = "Type something to search your Square inventory.";
-        return;
-      }
-
-      searchBtn.disabled = true;
-      searchBtn.textContent = "Searching…";
-      searchStatusEl.textContent = "Searching…";
-
-      try{
-        const res = await fetch(WORKER_URL + "/search?q=" + encodeURIComponent(query));
-        if (!res.ok){
-          const text = await res.text();
-          console.error("Search failed:", res.status, text);
-          searchStatusEl.textContent = "Search error. Check Worker endpoint or CORS.";
-          return;
-        }
-
-        const data = await res.json();
-        if (!Array.isArray(data.objects)){
-          console.error("Unexpected response shape:", data);
-          searchStatusEl.textContent = "Search error. Worker must return { objects: [...] }.";
-          return;
-        }
-
-        const objects = data.objects.filter(o => o.type === "ITEM");
-        if (!objects.length){
-          searchStatusEl.textContent = "No items found. Try a different keyword.";
-          return;
-        }
-
-        searchStatusEl.textContent = `Found ${objects.length} item(s).`;
-
-        const frag = document.createDocumentFragment();
-
-        objects.forEach(obj => {
-          const itemData = obj.item_data || {};
-          const variations = itemData.variations || [];
-          const variation = variations[0]?.item_variation_data || null;
-          const priceMoney = variation?.price_money || null;
-          const price = priceMoney ? priceMoney.amount / 100 : null;
-
-          const card = document.createElement("div");
-          card.className = "product-card";
-
-          if (obj.image_url){
-            const imgEl = document.createElement("img");
-            imgEl.src = obj.image_url;
-            imgEl.alt = itemData.name || "Product";
-            imgEl.className = "product-image";
-            imgEl.loading = "lazy";
-            imgEl.onerror = function(){ this.style.display = "none"; };
-            card.appendChild(imgEl);
-          }
-
-          const nameEl = document.createElement("h3");
-          nameEl.className = "product-name";
-          nameEl.textContent = itemData.name || "Unnamed item";
-
-          const priceEl = document.createElement("p");
-          priceEl.className = "product-price";
-          priceEl.textContent = price != null ? formatMoney(price) : "Price not available";
-
-          const descEl = document.createElement("p");
-          descEl.className = "product-desc";
-          descEl.textContent = itemData.description || "";
-
-          const actions = document.createElement("div");
-          actions.className = "product-actions";
-
-          const btn = document.createElement("button");
-          btn.className = "snipcart-add-item";
-          btn.textContent = "Add to Cart";
-
-          btn.setAttribute("data-item-id", obj.id);
-          btn.setAttribute("data-item-name", itemData.name || "Unnamed item");
-          btn.setAttribute("data-item-price", price != null ? price : 0);
-          btn.setAttribute("data-item-url", SITE_URL_FOR_ITEMS);
-          btn.setAttribute("data-item-description", itemData.description || "");
-
-          if (obj.image_url) btn.setAttribute("data-item-image", obj.image_url);
-
-          // ✅ REQUIRED FOR UPS RATES
-          btn.setAttribute("data-item-shippable", "true");
-          btn.setAttribute("data-item-weight", "454"); // grams (~1 lb)
-
-          actions.appendChild(btn);
-
-          card.appendChild(nameEl);
-          card.appendChild(priceEl);
-          card.appendChild(descEl);
-          card.appendChild(actions);
-
-          frag.appendChild(card);
-        });
-
-        resultsDiv.innerHTML = "";
-        resultsDiv.appendChild(frag);
-
-      } catch(err){
-        console.error("Search error:", err);
-        searchStatusEl.textContent = "Search failed. Open DevTools Console for details.";
-      } finally{
-        searchBtn.disabled = false;
-        searchBtn.textContent = "Search";
-      }
-    }
-
-    document.getElementById("gw-search").addEventListener("submit", performSearch);
-
-    // ===== FREE ITEMS (25) =====
+    // If you want a no-worker fallback: product objects can include `payment_link` and the client will open that link.
+    // FREE items list (copied from your original)
     const FREE_ITEMS = [
       { id:"free-001", name:"Van Camp's Pork and Beans", price:0.00, description:"Canned Beans, 15oz" },
       { id:"free-002", name:"Lay's Classic Potato Chips", price:0.00, description:"Single-serve bag, 1oz" },
@@ -420,112 +167,261 @@
       { id:"free-025", name:"Cheetos Crunchy Cheese Flavored Snacks", price:0.00, description:"1oz" }
     ];
 
-    function setFreeStatus(msg){
-      const el = document.getElementById("freeItemStatus");
-      if (el) el.textContent = msg || "";
+    // ===== Helpers & Cart storage =====
+    function cents(n){ return Math.round(Number(n) * 100); }
+    function formatMoney(n){ return "$" + Number(n).toFixed(2); }
+    function getCart(){ try{ return JSON.parse(localStorage.getItem("gw_cart") || "[]"); }catch{ return []; } }
+    function saveCart(cart){ localStorage.setItem("gw_cart", JSON.stringify(cart)); updateCartUI(); }
+    function addToCartObj(product){ // product: { id, name, price, image, payment_link? }
+      const cart = getCart();
+      const found = cart.find(i => i.id === product.id);
+      if (found){ found.qty = Math.min(99, (found.qty||1)+1); }
+      else { cart.push({ id: product.id, name: product.name, price: Number(product.price||0), image: product.image||"", payment_link: product.payment_link||null, qty: 1, shippable: product.shippable !== false }); }
+      saveCart(cart);
+      showMessage(`${product.name} added to cart`);
+    }
+    function removeFromCart(id){
+      const cart = getCart().filter(i => i.id !== id);
+      saveCart(cart);
+    }
+    function updateQty(id, qty){
+      const cart = getCart();
+      const it = cart.find(i => i.id === id);
+      if (!it) return;
+      it.qty = Math.max(0, Number(qty));
+      saveCart(cart);
+    }
+    function clearCart(){ localStorage.removeItem("gw_cart"); updateCartUI(); }
+
+    function cartCount(){
+      return getCart().reduce((s,i)=>s + (i.qty||0), 0);
+    }
+    function cartSubtotal(){
+      return getCart().reduce((s,i)=> s + (Number(i.price||0) * (i.qty||1)), 0);
     }
 
-    function populateFreeDropdown(){
-      const sel = document.getElementById("freeItemSelect");
-      if (!sel) return;
+    function updateCartUI(){
+      const countEl = document.getElementById("cartCount");
+      const panel = document.getElementById("cartPanel");
+      const itemsContainer = document.getElementById("cartItemsContainer");
+      const subtotalEl = document.getElementById("cartSubtotal");
+      const checkoutBtn = document.getElementById("checkoutBtn");
 
-      sel.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
+      const cart = getCart();
+      countEl.textContent = cartCount();
+      subtotalEl.textContent = formatMoney(cartSubtotal());
 
-      FREE_ITEMS.forEach(item => {
-        const opt = document.createElement("option");
-        opt.value = item.id;
-        opt.textContent = item.description ? `${item.name} — ${item.description}` : item.name;
-        sel.appendChild(opt);
-      });
-
-      setFreeStatus(`Loaded ${FREE_ITEMS.length} free item(s).`);
-    }
-
-    function ensureSnipcartLoaded(){
-      try{ window.LoadSnipcart && window.LoadSnipcart(); } catch {}
-    }
-
-    async function waitForSnipcartApi(timeoutMs=4500){
-      const start = Date.now();
-      while (Date.now() - start < timeoutMs){
-        if (window.Snipcart?.api?.cart?.items?.add) return true;
-        await new Promise(r => setTimeout(r, 120));
-      }
-      return false;
-    }
-
-    function getCartItemsSafe(){
-      try{ return window.Snipcart?.store?.getState()?.cart?.items?.items || []; }
-      catch{ return []; }
-    }
-
-    function isFreebie(item){
-      const categories = item?.categories || [];
-      return Array.isArray(categories) && categories.includes(FREEBIE_CATEGORY);
-    }
-
-    async function removeAllFreebies(){
-      const items = getCartItemsSafe();
-      const freebies = items.filter(isFreebie);
-      for (const f of freebies){
-        try{ await window.Snipcart.api.cart.items.remove(f.uniqueId); }
-        catch(e){ console.warn("Failed removing free item:", e); }
-      }
-    }
-
-    async function addSelectedFreeItem(){
-      const btn = document.getElementById("addFreeItemBtn");
-      const sel = document.getElementById("freeItemSelect");
-
-      if (!sel || !sel.value){ setFreeStatus("Pick a free item first."); return; }
-
-      const chosen = FREE_ITEMS.find(x => x.id === sel.value);
-      if (!chosen){ setFreeStatus("That free item wasn't found."); return; }
-
-      btn.disabled = true;
-      btn.textContent = "Adding…";
-      setFreeStatus("Loading cart…");
-
-      ensureSnipcartLoaded();
-
-      const ready = await waitForSnipcartApi();
-      if (!ready){
-        setFreeStatus("Snipcart is still loading. Click the Cart button once, then try again.");
-        btn.disabled = false;
-        btn.textContent = "Add Free Item";
+      itemsContainer.innerHTML = "";
+      if (!cart.length){
+        itemsContainer.innerHTML = '<div class="small-muted">Your cart is empty.</div>';
+        checkoutBtn.disabled = true;
         return;
       }
 
+      cart.forEach(it => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${it.image||'https://via.placeholder.com/120x90?text=No+img'}" alt="${escapeHtml(it.name)}" />
+          <div class="meta">
+            <div class="name">${escapeHtml(it.name)}</div>
+            <div class="qty">Qty: <input data-id="${it.id}" class="qty-input" type="number" value="${it.qty}" min="0" style="width:64px;padding:6px;border-radius:6px;border:1px solid #eee" /></div>
+          </div>
+          <div style="text-align:right">
+            <div class="small-muted">${formatMoney(it.price)}</div>
+            <div style="margin-top:8px"><button data-remove="${it.id}" style="background:#fff;border:1px solid #eee;padding:6px;border-radius:8px;cursor:pointer">Remove</button></div>
+          </div>
+        `;
+        itemsContainer.appendChild(div);
+      });
+
+      // bind qty change & remove
+      itemsContainer.querySelectorAll(".qty-input").forEach(inp=>{
+        inp.addEventListener("change", e=>{
+          const id = inp.dataset.id;
+          const val = Number(inp.value)||0;
+          if (val <= 0){ removeFromCart(id); } else { updateQty(id, val); }
+        });
+      });
+      itemsContainer.querySelectorAll("[data-remove]").forEach(btn=>{
+        btn.addEventListener("click", e=>{
+          const id = btn.getAttribute("data-remove");
+          removeFromCart(id);
+        });
+      });
+
+      checkoutBtn.disabled = false;
+    }
+
+    function escapeHtml(s){ if(!s) return ""; return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+    function showMessage(msg){ const s = document.getElementById("freeItemStatus"); if (s) s.textContent = msg; }
+
+    // ===== Cart UI toggles =====
+    document.getElementById("openCartBtn").addEventListener("click", ()=>{ document.getElementById("cartPanel").classList.toggle("cart-hidden"); });
+    document.getElementById("closeCart").addEventListener("click", ()=>{ document.getElementById("cartPanel").classList.add("cart-hidden"); });
+    document.getElementById("clearCartBtn").addEventListener("click", ()=>{ clearCart(); showMessage("Cart cleared"); });
+
+    // Checkout flow:
+    // POST to WORKER_CHECKOUT with payload:
+    // { items: [{ id, name, price, qty, shippable }], meta: { freeItemId: "free-002" } }
+    // Worker creates a Square order / checkout session and returns { checkoutUrl }
+    async function checkout(){
+      const checkoutStatus = document.getElementById("checkoutStatus");
+      checkoutStatus.textContent = "";
+      const cart = getCart();
+      if (!cart.length){ checkoutStatus.textContent = "Cart is empty."; return; }
+      document.getElementById("checkoutBtn").disabled = true;
+      checkoutStatus.textContent = "Preparing checkout…";
+
+      // Build payload
+      const payload = { items: cart.map(i => ({ id: i.id, name: i.name, price: Number(i.price||0), qty: Number(i.qty||1), shippable: !!i.shippable })) };
+
       try{
-        setFreeStatus("Updating your free item…");
-        await removeAllFreebies();
+        // call worker
+        const res = await fetch(WORKER_CHECKOUT, {
+          method: "POST",
+          headers: { "Content-Type":"application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok){
+          const text = await res.text();
+          checkoutStatus.textContent = "Checkout failed: " + res.status;
+          console.error("checkout error:", res.status, text);
+          document.getElementById("checkoutBtn").disabled = false;
+          return;
+        }
+        const data = await res.json();
+        if (data.checkoutUrl){
+          // Redirect shopper to Square checkout
+          window.location.href = data.checkoutUrl;
+        } else {
+          checkoutStatus.textContent = "Checkout endpoint did not return a URL.";
+          document.getElementById("checkoutBtn").disabled = false;
+        }
+      } catch (err){
+        console.error("Checkout error:", err);
+        checkoutStatus.textContent = "Checkout failed. See console.";
+        document.getElementById("checkoutBtn").disabled = false;
+      }
+    }
+    document.getElementById("checkoutBtn").addEventListener("click", checkout);
 
-        const price = (typeof chosen.price === "number") ? chosen.price : FREEBIE_DEFAULT_PRICE;
+    // ===== Search & Render products (uses your Worker) =====
+    const searchInput = document.getElementById("q");
+    const searchBtn = document.getElementById("go");
+    const resultsDiv = document.getElementById("results");
+    const searchStatusEl = document.getElementById("search-status");
 
-        await window.Snipcart.api.cart.items.add({
-          id: chosen.id,
-          name: chosen.name,
-          price: price,
-          url: FREE_ITEMS_URL,
-          description: chosen.description || "Free item",
-          categories: [FREEBIE_CATEGORY],
-          shippable: true,
-          weight: 100 // grams
+    async function performSearch(evt){
+      if (evt) evt.preventDefault();
+      const q = searchInput.value.trim();
+      resultsDiv.innerHTML = "";
+      searchStatusEl.textContent = "";
+      if (!q){ searchStatusEl.textContent = "Type something to search your Square inventory."; return; }
+      try{
+        searchBtn.disabled = true; searchBtn.textContent = "Searching…";
+        const res = await fetch(WORKER_URL + "/search?q=" + encodeURIComponent(q));
+        if (!res.ok){ const t = await res.text(); console.error("Search failed:", res.status, t); searchStatusEl.textContent = "Search error"; return; }
+        const data = await res.json();
+        if (!Array.isArray(data.objects)){ console.error("Unexpected search response", data); searchStatusEl.textContent = "Search error"; return; }
+        const objects = data.objects.filter(o => o.type === "ITEM" || o.object); // tolerate variations
+        if (!objects.length){ searchStatusEl.textContent = "No items found"; return; }
+        searchStatusEl.textContent = `Found ${objects.length} item(s).`;
+        const frag = document.createDocumentFragment();
+        objects.forEach(obj => {
+          const itemData = obj.item_data || (obj.object && obj.object.item_data) || {};
+          const variations = itemData.variations || [];
+          const variation = variations[0]?.item_variation_data || null;
+          const priceMoney = variation?.price_money || variation?.price_money || null;
+          const price = priceMoney ? (priceMoney.amount / 100) : (obj.price || null);
+          const image = obj.image_url || obj.image || (itemData.image_url || null);
+          const id = obj.id || (obj.object && obj.object.id) || (itemData?.id || ("sq_" + Math.random().toString(36).slice(2,9)));
+          const name = itemData.name || obj.name || "Unnamed item";
+          const desc = itemData.description || obj.description || "";
+
+          const card = document.createElement("div");
+          card.className = "product-card";
+          if (image){
+            const img = document.createElement("img");
+            img.className = "product-image"; img.loading = "lazy"; img.src = image; img.alt = name;
+            img.onerror = function(){ this.style.display = "none"; };
+            card.appendChild(img);
+          }
+          const n = document.createElement("h3"); n.className = "product-name"; n.textContent = name; card.appendChild(n);
+          const p = document.createElement("p"); p.className = "product-price"; p.textContent = price != null ? formatMoney(price) : "Price N/A"; card.appendChild(p);
+          const d = document.createElement("p"); d.className = "product-desc"; d.textContent = desc; card.appendChild(d);
+
+          const actions = document.createElement("div"); actions.className = "product-actions";
+          // Add to cart button
+          const btn = document.createElement("button");
+          btn.className = "btn-add";
+          btn.textContent = "Add to Cart";
+          btn.addEventListener("click", ()=>{
+            addToCartObj({ id, name, price: (price!=null?price:0), image });
+          });
+          actions.appendChild(btn);
+
+          // Optional: if worker returns payment_link (Square Payment Link), add quick-buy fallback
+          if (obj.payment_link){
+            const pl = document.createElement("a");
+            pl.href = obj.payment_link;
+            pl.target = "_blank";
+            pl.rel = "noopener";
+            pl.style.display = "inline-block";
+            pl.style.marginTop = "8px";
+            pl.textContent = "Buy now";
+            actions.appendChild(pl);
+          }
+
+          card.appendChild(actions);
+          frag.appendChild(card);
         });
 
-        setFreeStatus("Free item added to cart ✅");
-      } catch(e){
-        console.error("Add free item failed:", e);
-        setFreeStatus("Could not add free item. Open DevTools Console for details.");
-      } finally{
-        btn.disabled = false;
-        btn.textContent = "Add Free Item";
+        resultsDiv.innerHTML = "";
+        resultsDiv.appendChild(frag);
+      } catch(err){
+        console.error("Search failed:", err);
+        searchStatusEl.textContent = "Search failed. Check console.";
+      } finally {
+        searchBtn.disabled = false; searchBtn.textContent = "Search";
       }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("gw-search").addEventListener("submit", performSearch);
+
+    // ===== Free items dropdown logic =====
+    function populateFreeDropdown(){
+      const sel = document.getElementById("freeItemSelect");
+      if (!sel) return;
+      // remove old options
+      sel.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
+      FREE_ITEMS.forEach(it => {
+        const opt = document.createElement("option");
+        opt.value = it.id;
+        opt.textContent = it.description ? `${it.name} — ${it.description}` : it.name;
+        sel.appendChild(opt);
+      });
+      showMessage(`Loaded ${FREE_ITEMS.length} free item(s).`);
+    }
+
+    function addSelectedFreeItem(){
+      const sel = document.getElementById("freeItemSelect");
+      if (!sel || !sel.value){ showMessage("Pick a free item first."); return; }
+      const chosen = FREE_ITEMS.find(x => x.id === sel.value);
+      if (!chosen){ showMessage("Free item not found."); return; }
+      // ensure only one free item: remove other freebies first
+      const cart = getCart().filter(i => !i.id.startsWith("free-"));
+      cart.push({ id: chosen.id, name: chosen.name, price: Number(chosen.price||0), qty: 1, image: "", shippable: true, free: true });
+      saveCart(cart);
+      showMessage("Free item added to your cart ✅");
+    }
+
+    // Keep UI updated
+    document.addEventListener("DOMContentLoaded", ()=>{
+      document.getElementById("year").textContent = new Date().getFullYear();
       populateFreeDropdown();
-      document.getElementById("addFreeItemBtn")?.addEventListener("click", addSelectedFreeItem);
+      updateCartUI();
+      document.getElementById("addFreeItemBtn").addEventListener("click", addSelectedFreeItem);
     });
   </script>
 </body>
