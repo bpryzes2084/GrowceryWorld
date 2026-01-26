@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — Growceryworld</title>
+  <meta name="description" content="Checkout — Shipping address and shipping rates." />
+  <style>
+    :root{
+      --bg:#fff; --ink:#0f172a; --muted:#475569; --border:#e5e7eb;
+      --accent:#16a34a; --accentHover:#15803d; --btn:#111827; --btnHover:#0b1220;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:inherit}
+    .top{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
+    .top-inner{max-width:1100px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{font-weight:900}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+    .grid{display:grid;grid-template-columns: 1.1fr .9fr;gap:16px;align-items:start}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px}
+    h1{font-size:20px;margin:0 0 12px}
+    h2{font-size:16px;margin:0 0 10px}
+    .muted{color:var(--muted);font-size:13px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:560px){.row{grid-template-columns:1fr}}
+    label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}
+    input,select{
+      width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);
+      outline:none;background:#fff;color:var(--ink)
+    }
+    input:focus,select:focus{border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25)}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:12px 14px;border-radius:12px;border:0;cursor:pointer;
+      background:var(--btn);color:#fff;font-weight:900;
+    }
+    .btn:hover{background:var(--btnHover)}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .btn-accent{background:var(--accent)}
+    .btn-accent:hover{background:var(--accentHover)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .hr{height:1px;background:var(--border);margin:14px 0}
+    .cart-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed #eee}
+    .cart-item:last-child{border-bottom:0}
+    .thumb{width:56px;height:48px;border-radius:10px;background:#f1f5f9;object-fit:cover}
+    .name{font-weight:900;font-size:14px;margin:0}
+    .line{font-size:13px;color:var(--muted)}
+    .right{margin-left:auto;text-align:right}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--border);font-size:12px;color:var(--muted)}
+    .rate{border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+    .rate:hover{border-color:#cbd5e1;box-shadow:0 10px 24px rgba(0,0,0,.06)}
+    .rate input{width:auto;margin-top:2px}
+    .rate .meta{flex:1}
+    .rate .title{font-weight:900}
+    .rate .sub{font-size:13px;color:var(--muted)}
+    .totals{display:flex;flex-direction:column;gap:8px}
+    .totals .rowline{display:flex;justify-content:space-between;gap:10px}
+    .totals .rowline strong{font-weight:900}
+    .status{min-height:18px;margin-top:10px;font-size:13px;color:var(--muted)}
+    .error{color:#b91c1c}
+    .ok{color:#166534}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="top-inner">
+      <div class="brand">Growceryworld</div>
+      <a class="pill" href="/" title="Back to shopping">← Continue shopping</a>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <h1>Checkout</h1>
+    <p class="muted">Step 1 of F.2: collect shipping address + calculate shipping. No payment yet.</p>
+
+    <div class="grid">
+      <!-- LEFT: Address + Shipping rates -->
+      <section class="card">
+        <h2>Shipping address</h2>
+        <div class="row">
+          <div>
+            <label for="fullName">Full name</label>
+            <input id="fullName" autocomplete="name" placeholder="First Last" />
+          </div>
+          <div>
+            <label for="email">Email (optional)</label>
+            <input id="email" autocomplete="email" placeholder="you@email.com" />
+          </div>
+        </div>
+
+        <label for="address1">Address line 1</label>
+        <input id="address1" autocomplete="address-line1" placeholder="Street address" />
+
+        <label for="address2">Address line 2 (optional)</label>
+        <input id="address2" autocomplete="address-line2" placeholder="Apt, suite, etc." />
+
+        <div class="row">
+          <div>
+            <label for="city">City</label>
+            <input id="city" autocomplete="address-level2" placeholder="City" />
+          </div>
+          <div>
+            <label for="state">State</label>
+            <input id="state" autocomplete="address-level1" placeholder="CO" maxlength="2" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="zip">ZIP</label>
+            <input id="zip" autocomplete="postal-code" placeholder="80019" />
+          </div>
+          <div>
+            <label for="country">Country</label>
+            <select id="country" autocomplete="country">
+              <option value="US" selected>United States</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="calcBtn" class="btn btn-accent">Calculate shipping</button>
+          <button id="clearBtn" class="btn" type="button">Clear form</button>
+        </div>
+
+        <div class="hr"></div>
+
+        <h2>Shipping options</h2>
+        <div id="ratesWrap" class="muted">Enter address and click “Calculate shipping”.</div>
+
+        <div class="hr"></div>
+
+        <h2>Next step</h2>
+        <p class="muted">
+          When rates work, we’ll build <code>/api/checkout/create</code> (Square + PayPal later) to charge the final total.
+        </p>
+
+        <div id="status" class="status"></div>
+      </section>
+
+      <!-- RIGHT: Cart summary -->
+      <aside class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <h2 style="margin:0">Cart summary</h2>
+          <span id="cartPill" class="pill">0 items</span>
+        </div>
+        <div id="cartList" style="margin-top:10px"></div>
+
+        <div class="hr"></div>
+
+        <div class="totals">
+          <div class="rowline"><span class="muted">Subtotal</span><strong id="subtotal">$0.00</strong></div>
+          <div class="rowline"><span class="muted">Shipping</span><strong id="shipping">$—</strong></div>
+          <div class="rowline"><span class="muted">Estimated total</span><strong id="total">$—</strong></div>
+        </div>
+
+        <div class="hr"></div>
+
+        <p class="muted">
+          If you see “No valid item ids provided”, your cart items don’t have a Square variationId.
+          Make sure Add-to-cart is saving the Square <strong>variation</strong> catalog object id.
+        </p>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // =========================
+    // CONFIG (F.2 STEP 1)
+    // =========================
+    // Your Worker is routed to /api/*
+    const API_BASE = "/api";
+    const SHIPPING_RATES_ENDPOINT = `${API_BASE}/shipping/rates`; // YOU will implement this in Worker next
+    // Note: Your current Worker has /search and /create-checkout. This page does NOT use /create-checkout yet.
+
+    // =========================
+    // CART FORMAT (expected)
+    // =========================
+    // localStorage "gw_cart" must contain items like:
+    // [{ variationId: "CATALOG_VAR_ID", name, price, qty, image, weightOz? }]
+    //
+    // If your current cart uses itemId instead of variationId, fix add-to-cart first.
+    function getCart(){
+      try { return JSON.parse(localStorage.getItem("gw_cart") || "[]"); }
+      catch { return []; }
+    }
+
+    function money(n){ return "$" + Number(n || 0).toFixed(2); }
+
+    function cartCount(cart){ return cart.reduce((s,i)=> s + (Number(i.qty)||0), 0); }
+    function cartSubtotal(cart){ return cart.reduce((s,i)=> s + (Number(i.price||0) * (Number(i.qty)||1)), 0); }
+
+    function esc(s){
+      return String(s || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    // =========================
+    // RENDER CART
+    // =========================
+    function renderCart(){
+      const cart = getCart();
+      const list = document.getElementById("cartList");
+      const pill = document.getElementById("cartPill");
+      const subtotalEl = document.getElementById("subtotal");
+
+      pill.textContent = `${cartCount(cart)} item(s)`;
+      subtotalEl.textContent = money(cartSubtotal(cart));
+
+      if (!cart.length){
+        list.innerHTML = `<div class="muted">Your cart is empty.</div>`;
+        return;
+      }
+
+      list.innerHTML = "";
+      cart.forEach(it => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          ${it.image ? `<img class="thumb" src="${it.image}" alt="${esc(it.name)}" onerror="this.style.display='none'">` : `<div class="thumb"></div>`}
+          <div>
+            <p class="name">${esc(it.name || "Item")}</p>
+            <div class="line">Qty: ${Number(it.qty)||1}</div>
+            <div class="line">${it.variationId ? `<span class="pill">variationId ✓</span>` : `<span class="pill" style="color:#b91c1c;border-color:#fecaca">missing variationId</span>`}</div>
+          </div>
+          <div class="right">
+            <div class="line">${money(it.price)}</div>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    // =========================
+    // ADDRESS
+    // =========================
+    function readAddress(){
+      return {
+        name: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        address1: document.getElementById("address1").value.trim(),
+        address2: document.getElementById("address2").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim().toUpperCase(),
+        zip: document.getElementById("zip").value.trim(),
+        country: document.getElementById("country").value.trim() || "US",
+      };
+    }
+
+    function validateAddress(a){
+      const missing = [];
+      if (!a.name) missing.push("Full name");
+      if (!a.address1) missing.push("Address line 1");
+      if (!a.city) missing.push("City");
+      if (!a.state || a.state.length !== 2) missing.push("State (2-letter)");
+      if (!a.zip) missing.push("ZIP");
+      if (!a.country) missing.push("Country");
+      return missing;
+    }
+
+    // =========================
+    // SHIPPING RATES (Step 1 endpoint)
+    // =========================
+    let selectedShipping = null; // { id, label, amount, etaDays? }
+
+    function setStatus(msg, type){
+      const el = document.getElementById("status");
+      el.className = "status " + (type === "error" ? "error" : type === "ok" ? "ok" : "");
+      el.textContent = msg || "";
+    }
+
+    function setTotals(shippingAmount){
+      const cart = getCart();
+      const sub = cartSubtotal(cart);
+      document.getElementById("shipping").textContent = shippingAmount == null ? "$—" : money(shippingAmount);
+      document.getElementById("total").textContent = shippingAmount == null ? "$—" : money(sub + shippingAmount);
+    }
+
+    function buildRatesUI(options){
+      const wrap = document.getElementById("ratesWrap");
+      if (!options || !options.length){
+        wrap.innerHTML = `<div class="muted">No shipping options returned.</div>`;
+        selectedShipping = null;
+        setTotals(null);
+        return;
+      }
+
+      const html = options.map((opt, idx) => {
+        const eta = opt.etaDays ? ` • ETA ${opt.etaDays} day(s)` : "";
+        return `
+          <label class="rate">
+            <input type="radio" name="shipRate" value="${esc(opt.id)}" ${idx===0 ? "checked" : ""}>
+            <div class="meta">
+              <div class="title">${esc(opt.label || opt.id)}</div>
+              <div class="sub">${money(opt.amount)}${eta}</div>
+            </div>
+          </label>
+        `;
+      }).join("");
+
+      wrap.innerHTML = html;
+
+      // default select first
+      selectedShipping = options[0];
+      setTotals(selectedShipping.amount);
+
+      wrap.querySelectorAll('input[name="shipRate"]').forEach(r => {
+        r.addEventListener("change", () => {
+          const id = r.value;
+          selectedShipping = options.find(o => String(o.id) === String(id)) || null;
+          setTotals(selectedShipping ? selectedShipping.amount : null);
+        });
+      });
+    }
+
+    async function calculateShipping(){
+      const cart = getCart();
+      if (!cart.length){
+        setStatus("Cart is empty. Go back and add items first.", "error");
+        return;
+      }
+
+      // require variationId for F.2
+      const invalid = cart.filter(i => !i.variationId);
+      if (invalid.length){
+        setStatus("Some items are missing variationId. Fix add-to-cart to store the Square VARIATION id.", "error");
+        return;
+      }
+
+      const shipTo = readAddress();
+      const missing = validateAddress(shipTo);
+      if (missing.length){
+        setStatus("Missing: " + missing.join(", "), "error");
+        return;
+      }
+
+      const btn = document.getElementById("calcBtn");
+      btn.disabled = true;
+      setStatus("Getting shipping rates…");
+
+      // Build payload for /api/shipping/rates
+      // weightOz is optional for now; Worker can compute it later from Square custom attribute lookup.
+      const payload = {
+        shipTo: {
+          name: shipTo.name,
+          address1: shipTo.address1,
+          address2: shipTo.address2,
+          city: shipTo.city,
+          state: shipTo.state,
+          zip: shipTo.zip,
+          country: shipTo.country
+        },
+        cart: cart.map(i => ({
+          variationId: i.variationId,
+          qty: Number(i.qty || 1),
+          weightOz: i.weightOz != null ? Number(i.weightOz) : undefined
+        }))
+      };
+
+      try{
+        const res = await fetch(SHIPPING_RATES_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type":"application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const txt = await res.text();
+        let data = null;
+        try { data = JSON.parse(txt); } catch {}
+
+        if (!res.ok){
+          console.error("shipping rates error:", res.status, txt);
+          setStatus(`Shipping rates failed: ${res.status}`, "error");
+          document.getElementById("ratesWrap").innerHTML =
+            `<div class="muted">Endpoint not ready yet: <code>${SHIPPING_RATES_ENDPOINT}</code></div>`;
+          setTotals(null);
+          return;
+        }
+
+        const options = data && data.options ? data.options : [];
+        buildRatesUI(options);
+
+        const tw = data && data.totalWeightOz != null ? ` Total weight: ${data.totalWeightOz} oz.` : "";
+        setStatus("Shipping rates loaded ✅" + tw, "ok");
+
+      } catch (e){
+        console.error(e);
+        setStatus("Shipping rates request failed. Check console.", "error");
+        setTotals(null);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // =========================
+    // Wire UI
+    // =========================
+    document.getElementById("calcBtn").addEventListener("click", calculateShipping);
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      ["fullName","email","address1","address2","city","state","zip"].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+      document.getElementById("ratesWrap").innerHTML = `<div class="muted">Enter address and click “Calculate shipping”.</div>`;
+      setStatus("");
+      selectedShipping = null;
+      setTotals(null);
+    });
+
+    // initial
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCart();
+      setTotals(null);
+    });
+  </script>
+</body>
+</html>
