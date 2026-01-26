@@ -90,13 +90,50 @@
     <section id="search" class="section search-section">
       <h2 style="font-size:20px;margin:0 0 8px;">Search products</h2>
       <p class="search-status" id="search-status"></p>
-      <form id="gw-search" class="search-form" autocomplete="off">
-        <input id="q" type="search" placeholder="Search by product name (e.g., cereal, Lysol, Dawn)..." aria-label="Search products" />
-        <button type="submit" id="go">Search</button>
-      </form>
+      
+<form id="gw-search" class="search-form" autocomplete="off">
+  <input id="q" type="search" placeholder="Search by product name (e.g., cereal, Lysol, Dawn)..." aria-label="Search products" />
+  <button type="submit" id="go">Search</button>
+</form>
+
+<!-- NEW: Info cards under search -->
+<div class="info-cards" aria-label="Order benefits and shipping info">
+  <div class="cards-grid">
+    <article class="info-card">
+      <div class="info-badge">💧 Free bottle of water</div>
+      <h3>Free bottle of water with every order</h3>
+      <p>Every checkout includes a free water bottle. Simple perk, every time.</p>
+    </article>
+
+    <article class="info-card">
+      <div class="info-badge">🎁 Free item included</div>
+      <h3>Free item with every order</h3>
+      <p>Each order includes a free item. Your checkout will reflect it when applied.</p>
+    </article>
+
+    <article class="info-card">
+      <div class="info-badge">📦 Shipped via UPS</div>
+      <h3>All orders shipped via UPS</h3>
+      <p>Reliable delivery options and weight-based rates through UPS.</p>
+    </article>
+  </div>
+</div>
+
+<div id="results" class="results-grid"></div>
+
+
+
+      
+
+      
       <div id="results" class="results-grid"></div>
     </section>
 
+
+
+
+
+    
     <section class="section">
       <div class="coming-soon">Powered by Cloudflare Pages</div>
     </section>
