@@ -23,6 +23,7 @@
     .nav-logo{font-weight:800;font-size:18px;display:flex;align-items:center;gap:6px}
     .nav-links{display:flex;gap:16px;font-size:14px;color:var(--muted)}
     .nav-links a:hover{color:var(--ink)}
+
     .cart-btn{background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:10px;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:8px}
 
     .section{margin:32px 0}
@@ -47,6 +48,7 @@
     .btn-add{width:100%;padding:10px 16px;border-radius:10px;border:0;background:var(--accent2);color:#fff;cursor:pointer;font-size:14px;font-weight:800;transition:background .15s;font-family:inherit}
     .btn-add:hover{background:var(--accent2Hover)}
 
+    /* free item row */
     .free-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .free-select{flex:1;min-width:220px;padding:12px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:14px;outline:none;}
     .free-select:focus{border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);}
@@ -63,6 +65,7 @@
       .nav-links{display:none}
     }
 
+    /* cart panel */
     .cart-panel{position:fixed;right:18px;top:72px;width:360px;max-width:92vw;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px;box-shadow:0 12px 40px rgba(2,6,23,.08);display:flex;flex-direction:column;gap:10px;z-index:300}
     .cart-hidden{display:none}
     .cart-item{display:flex;gap:10px;align-items:center;border-bottom:1px dashed #eee;padding-bottom:8px}
@@ -73,11 +76,6 @@
     .small-muted{font-size:13px;color:var(--muted)}
     .checkout-btn{background:#111;color:#fff;padding:10px 12px;border-radius:10px;border:0;font-weight:800;cursor:pointer}
     .checkout-btn:disabled{opacity:.6;cursor:not-allowed}
-
-    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--muted);font-size:12px}
-    .pill strong{color:var(--ink)}
-    .free-grid-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 10px}
-    .free-grid-title h3{margin:0;font-size:15px}
   </style>
 </head>
 
@@ -121,13 +119,6 @@
         <button id="addFreeItemBtn" type="button" class="free-btn">Add Free Item</button>
       </div>
       <p id="freeItemStatus" class="free-note"></p>
-
-      <!-- VISIBLE FREE ITEMS -->
-      <div class="free-grid-title">
-        <h3>Free items (choose one)</h3>
-        <span class="pill"><strong id="freeCount">0</strong> items</span>
-      </div>
-      <div id="freeItemsGrid" class="results-grid"></div>
     </section>
 
     <section class="section">
@@ -162,7 +153,7 @@
     const WORKER_URL = "https://gw-search.benterpryzes2084.workers.dev"; // used for /search
     const WORKER_CHECKOUT = "https://gw-search.benterpryzes2084.workers.dev/create-checkout"; // POST cart to this endpoint; returns {checkoutUrl}
 
-    // FREE items list (visible + selectable)
+    // FREE items list (dropdown)
     const FREE_ITEMS = [
       { id:"free-001", name:"Van Camp's Pork and Beans", price:0.00, description:"Canned Beans, 15oz" },
       { id:"free-002", name:"Lay's Classic Potato Chips", price:0.00, description:"Single-serve bag, 1oz" },
@@ -201,9 +192,7 @@
     function showMessage(msg){ const s=document.getElementById("freeItemStatus"); if(s) s.textContent=msg||""; }
 
     // Free item rule: only one free-* item allowed in cart
-    function stripFreebies(cart){
-      return cart.filter(i => !(String(i.id||"").startsWith("free-")));
-    }
+    function stripFreebies(cart){ return cart.filter(i => !(String(i.id||"").startsWith("free-"))); }
 
     function addToCartObj(product){
       const cart = getCart();
@@ -239,9 +228,6 @@
       });
       saveCart(cart);
       showMessage(`Free item set: ${chosen.name} ✅`);
-
-      const sel = document.getElementById("freeItemSelect");
-      if(sel) sel.value = chosen.id;
     }
 
     function removeFromCart(id){
@@ -488,7 +474,7 @@
 
     document.getElementById("gw-search").addEventListener("submit", performSearch);
 
-    // ===== Free items dropdown + visible grid =====
+    // ===== Free items dropdown only =====
     function populateFreeDropdown(){
       const sel = document.getElementById("freeItemSelect");
       if(!sel) return;
@@ -499,52 +485,7 @@
         opt.textContent = it.description ? `${it.name} — ${it.description}` : it.name;
         sel.appendChild(opt);
       });
-      document.getElementById("freeCount").textContent = String(FREE_ITEMS.length);
       showMessage(`Loaded ${FREE_ITEMS.length} free item(s).`);
-    }
-
-    function renderFreeItemsGrid(){
-      const grid = document.getElementById("freeItemsGrid");
-      if(!grid) return;
-      grid.innerHTML = "";
-      const frag = document.createDocumentFragment();
-
-      FREE_ITEMS.forEach(it => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-
-        const n = document.createElement("h3");
-        n.className = "product-name";
-        n.textContent = it.name;
-
-        const p = document.createElement("p");
-        p.className = "product-price";
-        p.textContent = "FREE";
-
-        const d = document.createElement("p");
-        d.className = "product-desc";
-        d.textContent = it.description || "";
-
-        const actions = document.createElement("div");
-        actions.className = "product-actions";
-
-        const btn = document.createElement("button");
-        btn.className = "btn-add";
-        btn.textContent = "Choose this free item";
-        btn.addEventListener("click", ()=>{
-          setFreeItemById(it.id);
-        });
-
-        actions.appendChild(btn);
-        card.appendChild(n);
-        card.appendChild(p);
-        card.appendChild(d);
-        card.appendChild(actions);
-
-        frag.appendChild(card);
-      });
-
-      grid.appendChild(frag);
     }
 
     function addSelectedFreeItem(){
@@ -556,7 +497,6 @@
     document.addEventListener("DOMContentLoaded", ()=>{
       document.getElementById("year").textContent = new Date().getFullYear();
       populateFreeDropdown();
-      renderFreeItemsGrid();
       updateCartUI();
       document.getElementById("addFreeItemBtn").addEventListener("click", addSelectedFreeItem);
     });
