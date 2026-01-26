@@ -48,14 +48,6 @@
     .btn-add{width:100%;padding:10px 16px;border-radius:10px;border:0;background:var(--accent2);color:#fff;cursor:pointer;font-size:14px;font-weight:800;transition:background .15s;font-family:inherit}
     .btn-add:hover{background:var(--accent2Hover)}
 
-    /* free item row */
-    .free-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .free-select{flex:1;min-width:220px;padding:12px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:14px;outline:none;}
-    .free-select:focus{border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.25);}
-    .free-btn{padding:12px 16px;border-radius:12px;border:0;background:var(--btnDark);color:#fff;cursor:pointer;font-weight:800;font-size:14px;white-space:nowrap;}
-    .free-btn:hover{background:var(--btnDarkHover)}
-    .free-note{margin-top:10px;color:var(--muted);font-size:13px;min-height:18px}
-
     footer{text-align:center;margin-top:40px;font-size:13px;color:var(--muted)}
     .coming-soon{text-align:center;margin-top:16px;font-size:13px;color:var(--muted)}
 
@@ -86,7 +78,6 @@
 
       <div class="nav-links">
         <a href="#search">Search</a>
-        <a href="#free-item">Free item</a>
       </div>
 
       <div style="display:flex;align-items:center;gap:8px">
@@ -104,21 +95,6 @@
         <button type="submit" id="go">Search</button>
       </form>
       <div id="results" class="results-grid"></div>
-    </section>
-
-    <section id="free-item" class="section search-section">
-      <h2 style="font-size:20px;margin:0 0 8px;">Free item with every order</h2>
-      <p style="color:var(--muted);font-size:13px;margin:0 0 12px;">
-        Pick <strong>one</strong> free item per order. Add it before checkout.
-      </p>
-
-      <div class="free-row">
-        <select id="freeItemSelect" class="free-select">
-          <option value="">-- Choose your free item --</option>
-        </select>
-        <button id="addFreeItemBtn" type="button" class="free-btn">Add Free Item</button>
-      </div>
-      <p id="freeItemStatus" class="free-note"></p>
     </section>
 
     <section class="section">
@@ -150,37 +126,19 @@
 
   <script>
     // ===== CONFIG =====
-    const WORKER_URL = "https://gw-search.benterpryzes2084.workers.dev"; // used for /search
-    const WORKER_CHECKOUT = "https://gw-search.benterpryzes2084.workers.dev/create-checkout"; // POST cart to this endpoint; returns {checkoutUrl}
+    const WORKER_URL = "https://gw-search.benterpryzes2084.workers.dev"; // /search
+    const WORKER_CHECKOUT = "https://gw-search.benterpryzes2084.workers.dev/create-checkout"; // POST -> { checkoutUrl }
 
-    // FREE items list (dropdown)
-    const FREE_ITEMS = [
-      { id:"free-001", name:"Van Camp's Pork and Beans", price:0.00, description:"Canned Beans, 15oz" },
-      { id:"free-002", name:"Lay's Classic Potato Chips", price:0.00, description:"Single-serve bag, 1oz" },
-      { id:"free-003", name:"Lay's Barbecue Potato Chips", price:0.00, description:"Single-serve bag, 1oz" },
-      { id:"free-004", name:"Bumble Bee Chunk Light Tuna In Water", price:0.00, description:"5oz" },
-      { id:"free-005", name:"Chicken of the Sea Chunk Light Tuna", price:0.00, description:"5oz" },
-      { id:"free-006", name:"Starkist Chunk Light Tuna", price:0.00, description:"5oz" },
-      { id:"free-007", name:"Rosarita Traditional Refried Beans", price:0.00, description:"16oz" },
-      { id:"free-008", name:"Gerber Stage 2 Chicken and Gravy", price:0.00, description:"2.5oz" },
-      { id:"free-009", name:"Gerber Stage 2 Turkey and Gravy", price:0.00, description:"2.5oz" },
-      { id:"free-010", name:"Cesar Filets in Gravy Adult Dog Food Filet Mignon Flavor", price:0.00, description:"3.5oz" },
-      { id:"free-011", name:"Purina Friskies Wet Cat Food Pate Liver and Chicken Dinner", price:0.00, description:"5.5oz" },
-      { id:"free-012", name:"Ruffles Original Potato Chips", price:0.00, description:"1oz" },
-      { id:"free-013", name:"Nature Valley Oats 'n Honey Crunchy Granola Bars", price:0.00, description:"1.49oz" },
-      { id:"free-014", name:"Nature Valley Chewy Trail Mix Fruit & Nut Granola Bars", price:0.00, description:"1.2oz" },
-      { id:"free-015", name:"Kar's Sweet 'n Salty Trail Mix", price:0.00, description:"2oz" },
-      { id:"free-016", name:"Capri Sun Variety Pack", price:0.00, description:"6 fl oz pouch (flavor varies when shipped)" },
-      { id:"free-017", name:"Famous Amos Chocolate Chip Cookies", price:0.00, description:"2oz" },
-      { id:"free-018", name:"Lance ToastChee Peanut Butter Crackers", price:0.00, description:"1.52oz" },
-      { id:"free-019", name:"Lance Toasty Peanut Butter Sandwich Crackers", price:0.00, description:"1.29oz" },
-      { id:"free-020", name:"Cheez-It Original Baked Snack Crackers", price:0.00, description:"1.5oz" },
-      { id:"free-021", name:"Cheez-It White Cheddar Snack Packs", price:0.00, description:"1.5oz" },
-      { id:"free-022", name:"Nabisco Classic Mix Cookie & Cracker", price:0.00, description:"Flavor varies when shipped" },
-      { id:"free-023", name:"Doritos Nacho Cheese Tortilla Chips", price:0.00, description:"1oz" },
-      { id:"free-024", name:"Fritos The Original Corn Chips", price:0.00, description:"1oz" },
-      { id:"free-025", name:"Cheetos Crunchy Cheese Flavored Snacks", price:0.00, description:"1oz" }
-    ];
+    // Inline placeholder (avoids via.placeholder.com DNS errors)
+    const PLACEHOLDER_IMG =
+      'data:image/svg+xml;utf8,' +
+      encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="90">
+          <rect width="100%" height="100%" fill="#f3f4f6"/>
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+                fill="#64748b" font-family="Arial" font-size="12">No image</text>
+        </svg>
+      `);
 
     // ===== Helpers & Cart storage =====
     function formatMoney(n){ return "$" + Number(n).toFixed(2); }
@@ -189,10 +147,6 @@
     function cartCount(){ return getCart().reduce((s,i)=>s+(i.qty||0),0); }
     function cartSubtotal(){ return getCart().reduce((s,i)=> s+(Number(i.price||0)*(i.qty||1)),0); }
     function escapeHtml(s){ if(!s) return ""; return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
-    function showMessage(msg){ const s=document.getElementById("freeItemStatus"); if(s) s.textContent=msg||""; }
-
-    // Free item rule: only one free-* item allowed in cart
-    function stripFreebies(cart){ return cart.filter(i => !(String(i.id||"").startsWith("free-"))); }
 
     function addToCartObj(product){
       const cart = getCart();
@@ -209,25 +163,6 @@
         });
       }
       saveCart(cart);
-      showMessage(`${product.name} added to cart`);
-    }
-
-    function setFreeItemById(freeId){
-      const chosen = FREE_ITEMS.find(x => x.id === freeId);
-      if(!chosen){ showMessage("Free item not found."); return; }
-
-      const cart = stripFreebies(getCart());
-      cart.push({
-        id: chosen.id,
-        name: chosen.name,
-        price: 0.00,
-        image: "",
-        qty: 1,
-        shippable: true,
-        free: true
-      });
-      saveCart(cart);
-      showMessage(`Free item set: ${chosen.name} ✅`);
     }
 
     function removeFromCart(id){
@@ -266,21 +201,20 @@
       }
 
       cart.forEach(it => {
-        const isFree = String(it.id||"").startsWith("free-");
         const div = document.createElement("div");
         div.className = "cart-item";
         div.innerHTML = `
-          <img src="${it.image || 'https://via.placeholder.com/120x90?text=No+img'}" alt="${escapeHtml(it.name)}" />
+          <img src="${it.image ? it.image : PLACEHOLDER_IMG}" alt="${escapeHtml(it.name)}" />
           <div class="meta">
-            <div class="name">${escapeHtml(it.name)}${isFree ? ' <span style="color:#16a34a;font-weight:900;">— FREE</span>' : ''}</div>
+            <div class="name">${escapeHtml(it.name)}</div>
             <div class="qty">
               Qty:
               <input data-id="${it.id}" class="qty-input" type="number" value="${it.qty}" min="0"
-                style="width:64px;padding:6px;border-radius:6px;border:1px solid #eee" ${isFree ? 'disabled' : ''} />
+                style="width:64px;padding:6px;border-radius:6px;border:1px solid #eee" />
             </div>
           </div>
           <div style="text-align:right">
-            <div class="small-muted">${isFree ? 'FREE' : formatMoney(it.price)}</div>
+            <div class="small-muted">${formatMoney(it.price)}</div>
             <div style="margin-top:8px">
               <button data-remove="${it.id}" style="background:#fff;border:1px solid #eee;padding:6px;border-radius:8px;cursor:pointer">
                 Remove
@@ -318,7 +252,9 @@
       document.getElementById("cartPanel").classList.add("cart-hidden");
     });
     document.getElementById("clearCartBtn").addEventListener("click", ()=>{
-      clearCart(); showMessage("Cart cleared");
+      clearCart();
+      const st = document.getElementById("checkoutStatus");
+      if(st) st.textContent = "Cart cleared";
     });
 
     // ===== Checkout via Worker =====
@@ -337,8 +273,7 @@
           name: i.name,
           price: Number(i.price||0),
           qty: Number(i.qty||1),
-          shippable: !!i.shippable,
-          free: !!i.free
+          shippable: !!i.shippable
         }))
       };
 
@@ -474,31 +409,9 @@
 
     document.getElementById("gw-search").addEventListener("submit", performSearch);
 
-    // ===== Free items dropdown only =====
-    function populateFreeDropdown(){
-      const sel = document.getElementById("freeItemSelect");
-      if(!sel) return;
-      sel.querySelectorAll("option:not(:first-child)").forEach(o => o.remove());
-      FREE_ITEMS.forEach(it => {
-        const opt = document.createElement("option");
-        opt.value = it.id;
-        opt.textContent = it.description ? `${it.name} — ${it.description}` : it.name;
-        sel.appendChild(opt);
-      });
-      showMessage(`Loaded ${FREE_ITEMS.length} free item(s).`);
-    }
-
-    function addSelectedFreeItem(){
-      const sel = document.getElementById("freeItemSelect");
-      if(!sel || !sel.value){ showMessage("Pick a free item first."); return; }
-      setFreeItemById(sel.value);
-    }
-
     document.addEventListener("DOMContentLoaded", ()=>{
       document.getElementById("year").textContent = new Date().getFullYear();
-      populateFreeDropdown();
       updateCartUI();
-      document.getElementById("addFreeItemBtn").addEventListener("click", addSelectedFreeItem);
     });
   </script>
 </body>
