@@ -308,12 +308,15 @@
       status.textContent = "Preparing checkout…";
 
       // Payload uses variationId (Square wants variation catalog object ids)
-      const payload = {
-        items: cart.map(i => ({
-          variationId: i.variationId,
-          quantity: Number(i.qty || 1)
-        }))
-      };
+     const payload = {
+  items: cart.map(i => ({
+    variation_id: i.variationId,
+    qty: Number(i.qty || 1),
+    name: i.name,
+    price: Number(i.price || 0)
+  }))
+};
+
 
       try {
         const res = await fetch(CHECKOUT_ENDPOINT, {
